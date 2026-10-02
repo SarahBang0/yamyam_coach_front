@@ -72,7 +72,24 @@
 
 /* 식사 목록 */
 .meals { margin-top: 44px; padding-top: 28px; border-top: 1px solid var(--divider); }
-.meals__title { margin: 0 0 8px; font-size: 19px; font-weight: 700; }
+.meals__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.meals__title { margin: 0; font-size: 19px; font-weight: 700; }
+/* 식단 등록: 박스 없이 초록 글씨, 호버하면 살짝 커지고 굵어짐 */
+.meals__add {
+  padding: 6px 2px;
+  color: var(--green-text);
+  font-size: 16px;
+  font-weight: 500;
+  transform-origin: right center;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s;
+}
+.meals__add:hover,
+.meals__add:focus-visible { color: var(--green-deep); font-weight: 800; transform: scale(1.08); }
 .meals__title span { color: var(--green-text); }
 .meal-list { margin: 0; padding: 0; list-style: none; }
 .meal-list li + li { border-top: 1px solid var(--divider); }

@@ -1,7 +1,7 @@
 // 식단 분석 (F305) 과 건강 지표 (F307)
 // 계산만 한다. 저장하지 않는다.
 
-import { NUTRIENT_KEYS } from '../core/constants.js';
+import { NUTRIENT_KEYS, GOALS, DEFAULT_GOAL, MIN_DAILY_KCAL } from '../core/constants.js';
 import { round, getDiseases } from '../core/utils.js';
 
 // 음식 목록의 영양 합계 → { calorie, carbohydrate, protein, fat, sodium, sugar }
@@ -24,9 +24,10 @@ export function calcBMI(user) {
   return { bmi, bmiLabel };
 }
 
-// 하루 권장 칼로리 = 몸무게(kg) × 30
+// 하루 권장 열량 = 몸무게 × (목표별 kg당 열량: 감량 25 / 유지 30 / 증량 35), 최소 1,200kcal
 export function calcTargetKcal(user) {
-  return Math.round(user.weight * 30);
+  const goal = GOALS[user.goal] ?? GOALS[DEFAULT_GOAL];
+  return Math.max(MIN_DAILY_KCAL, Math.round(user.weight * goal.kcalPerKg));
 }
 
 // 탄단지 열량 비율 % (탄수화물·단백질 4kcal/g, 지방 9kcal/g)

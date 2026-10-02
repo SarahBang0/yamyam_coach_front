@@ -111,6 +111,17 @@
           <p class="error" data-error="diseaseInfo"></p>
         </fieldset>
 
+        <!-- 목표: 하루 권장 열량 계산에 반영 (감량 몸무게×25 / 유지 ×30 / 증량 ×35) -->
+        <fieldset class="choice-group">
+          <legend>목표</legend>
+          <div class="choice-list">
+            <label class="choice"><input type="radio" name="goal" value="감량"><span>체중 감량</span></label>
+            <label class="choice"><input type="radio" name="goal" value="유지" checked><span>체중 유지</span></label>
+            <label class="choice"><input type="radio" name="goal" value="증량"><span>체중 증량</span></label>
+          </div>
+          <p class="error" data-error="goal"></p>
+        </fieldset>
+
         <p class="error auth__form-error" data-error="form"></p>
         <button class="btn-primary" type="submit">가입하기</button>
       </form>

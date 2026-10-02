@@ -83,7 +83,10 @@
 
     <!-- 그날 먹은 식사 -->
     <section class="meals">
-      <h2 class="meals__title">식사 <span data-field="mealCount">0</span></h2>
+      <div class="meals__head">
+        <h2 class="meals__title">식사 <span data-field="mealCount">0</span></h2>
+        <a class="meals__add" href="meal-form.html">+ 식단 등록</a>
+      </div>
       <ul id="meal-list" class="meal-list"></ul>
       <p id="meal-empty" class="empty-state" hidden>이날 기록한 식사가 없어요.</p>
     </section>

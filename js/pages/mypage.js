@@ -2,6 +2,7 @@
 
 import { getCurrentUser, requireLogin } from '../core/auth.js';
 import { homeUrl, formatDiseases, getDiseases } from '../core/utils.js';
+import { GOALS, DEFAULT_GOAL } from '../core/constants.js';
 import { $, initLayout, fillFields, fillForm, readForm, setMessage, showErrors, showResult, go } from '../core/ui.js';
 import { updateUser, deactivateUser } from '../services/userService.js';
 import { calcBMI, calcTargetKcal } from '../services/analysisService.js';
@@ -17,7 +18,15 @@ if (requireLogin()) {
 function renderInfo() {
   const user = getCurrentUser();
   const { bmi, bmiLabel } = calcBMI(user);
-  fillFields(document, { ...user, diseaseInfo: formatDiseases(user), bmi, bmiLabel, targetKcal: calcTargetKcal(user) });
+  const goal = user.goal in GOALS ? user.goal : DEFAULT_GOAL;
+  fillFields(document, {
+    ...user,
+    diseaseInfo: formatDiseases(user),
+    goalLabel: GOALS[goal].label,
+    bmi,
+    bmiLabel,
+    targetKcal: calcTargetKcal(user),
+  });
   fillForm($('#user-form'), {
     password: '',
     passwordConfirm: '',
@@ -25,6 +34,7 @@ function renderInfo() {
     height: user.height,
     weight: user.weight,
     diseaseInfo: getDiseases(user),
+    goal,
   });
 }
 

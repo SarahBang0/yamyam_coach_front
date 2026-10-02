@@ -18,14 +18,15 @@
 .profile__avatar svg { width: 34px; height: 34px; }
 .profile__name { margin: 0; font-size: 24px; font-weight: 700; }
 .profile__id { margin: 2px 0 0; color: var(--text-sub); }
-.profile__disease {
-  margin-left: auto;
+.profile__tags { display: flex; flex-wrap: wrap; gap: 6px; margin-left: auto; }
+.profile__tag {
   padding: 6px 14px;
   border-radius: var(--radius-pill);
-  background: var(--green-soft);
-  color: var(--green-text);
+  background: var(--control);
+  color: var(--text-2);
   font-weight: 500;
 }
+.profile__tag--disease { background: var(--green-soft); color: var(--green-text); }
 .profile__stats { grid-template-columns: repeat(4, 1fr); }
 .profile__stats dd small[data-field='bmiLabel'] { margin-left: 6px; color: var(--green-text); }
 

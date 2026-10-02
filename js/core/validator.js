@@ -2,7 +2,7 @@
 // 모든 함수는 { 필드명: 오류 메시지 } 객체를 돌려준다. 빈 객체면 통과.
 // 폼에서 읽은 값은 문자열이라 숫자도 문자열로 들어와도 된다.
 
-import { MEAL_TYPES, DISEASES, NUTRIENT_KEYS } from './constants.js';
+import { MEAL_TYPES, DISEASES, NUTRIENT_KEYS, GOALS } from './constants.js';
 import { today, isNumeric, getDiseases } from './utils.js';
 
 // 회원 가입·수정
@@ -40,6 +40,10 @@ export function validateUser(data, mode = 'signup') {
   // 질환은 여러 개 고를 수 있고, 하나도 없으면(빈 배열·'없음') 통과
   if (!getDiseases(data).every((d) => DISEASES.includes(d))) {
     errors.diseaseInfo = '질환 정보를 다시 선택하세요.';
+  }
+  // 목표는 고르지 않으면 '유지'로 저장하므로, 값이 있을 때만 검사
+  if (data.goal && !(data.goal in GOALS)) {
+    errors.goal = '목표를 다시 선택하세요.';
   }
   return errors;
 }

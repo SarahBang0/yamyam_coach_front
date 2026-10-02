@@ -1,7 +1,7 @@
 // 회원 기능 (F306~F309)
 // 화면(DOM)은 만지지 않는다. 결과만 돌려주면 pages/*.js가 화면에 보여준다.
 
-import { STORAGE_KEYS, MESSAGES } from '../core/constants.js';
+import { STORAGE_KEYS, MESSAGES, DEFAULT_GOAL } from '../core/constants.js';
 import { getAll, saveAll } from '../core/storage.js';
 import { getCurrentUser, logout } from '../core/auth.js';
 import { validateUser } from '../core/validator.js';
@@ -13,7 +13,7 @@ export function isUserIdTaken(userId) {
 }
 
 // F306 회원 가입
-// data: { userId, password, passwordConfirm, name, height, weight, diseaseInfo: ['고혈압', …] }
+// data: { userId, password, passwordConfirm, name, height, weight, diseaseInfo: ['고혈압', …], goal: '감량' | '유지' | '증량' }
 export function createUser(data) {
   const errors = validateUser(data, 'signup');
   if (!errors.userId && isUserIdTaken(data.userId)) {
@@ -28,6 +28,7 @@ export function createUser(data) {
     height: Number(data.height),
     weight: Number(data.weight),
     diseaseInfo: getDiseases(data),
+    goal: data.goal || DEFAULT_GOAL,
     active: true,
   };
   const users = getAll(STORAGE_KEYS.USERS);
@@ -43,7 +44,7 @@ export function getUser(userId) {
 }
 
 // F308 회원 수정 (본인만). userId는 바꿀 수 없고, password는 입력했을 때만 바뀐다
-// data: { password, passwordConfirm, name, height, weight, diseaseInfo: ['고혈압', …] }
+// data: { password, passwordConfirm, name, height, weight, diseaseInfo: ['고혈압', …], goal }
 export function updateUser(userId, data) {
   const denied = checkSelf(userId);
   if (denied) return denied;
@@ -57,6 +58,7 @@ export function updateUser(userId, data) {
   user.height = Number(data.height);
   user.weight = Number(data.weight);
   user.diseaseInfo = getDiseases(data);
+  user.goal = data.goal || user.goal || DEFAULT_GOAL;
   if (data.password) user.password = data.password;
 
   saveAll(STORAGE_KEYS.USERS, users);

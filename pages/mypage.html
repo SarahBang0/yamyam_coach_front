@@ -40,7 +40,10 @@
           <p class="profile__name" data-field="name"></p>
           <p class="profile__id">@<span data-field="userId"></span></p>
         </div>
-        <span class="profile__disease" data-field="diseaseInfo"></span>
+        <div class="profile__tags">
+          <span class="profile__tag" data-field="goalLabel"></span>
+          <span class="profile__tag profile__tag--disease" data-field="diseaseInfo"></span>
+        </div>
       </div>
       <dl class="nutrients profile__stats">
         <div><dt>키</dt><dd><span data-field="height"></span><small>cm</small></dd></div>
@@ -80,6 +83,15 @@
           <label class="choice"><input type="checkbox" name="diseaseInfo" value="당뇨"><span>당뇨</span></label>
         </div>
         <p class="error" data-error="diseaseInfo"></p>
+      </div>
+      <div class="form-row">
+        <span class="form-label">목표 <small class="form-optional">하루 권장 열량에 반영돼요</small></span>
+        <div class="choice-list">
+          <label class="choice"><input type="radio" name="goal" value="감량"><span>체중 감량</span></label>
+          <label class="choice"><input type="radio" name="goal" value="유지"><span>체중 유지</span></label>
+          <label class="choice"><input type="radio" name="goal" value="증량"><span>체중 증량</span></label>
+        </div>
+        <p class="error" data-error="goal"></p>
       </div>
       <div class="form-row">
         <span class="form-label">비밀번호 변경 <small class="form-optional">바꾸지 않으려면 비워 두세요</small></span>
