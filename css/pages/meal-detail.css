@@ -1,0 +1,60 @@
+/* 식단 상세·분석 */
+
+.detail-date { margin: 0 0 6px; }
+.detail-actions { display: flex; gap: 8px; }
+
+.score-card__main {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.grade--xl { width: 84px; height: 84px; font-size: 44px; }
+.score-card__score { margin: 0; font-size: 18px; color: #55595d; }
+.score-card__score strong { font-size: 44px; font-weight: 800; color: var(--text); letter-spacing: -0.02em; }
+.score-card__kcal { margin: 4px 0 0; color: var(--text-sub); }
+.score-card__kcal b { color: var(--text); }
+
+.advice {
+  display: grid;
+  gap: 8px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.advice li {
+  position: relative;
+  padding: 14px 16px 14px 44px;
+  border-radius: 14px;
+  background: #f3f8f2;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.advice li::before {
+  content: '💡';
+  position: absolute;
+  left: 16px;
+  top: 13px;
+}
+
+.table-wrap { overflow-x: auto; }
+.food-table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+.food-table th,
+.food-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #f0efe9;
+  text-align: right;
+  white-space: nowrap;
+}
+.food-table th:first-child { text-align: left; }
+.food-table thead th { color: var(--text-sub); font-size: 13px; font-weight: 700; }
+.food-table thead small { margin-left: 2px; font-weight: 500; }
+.food-table tbody th { font-weight: 700; }
+.food-table tfoot th,
+.food-table tfoot td { border-bottom: 0; font-weight: 800; background: #f7f7f3; }
+.food-table tfoot th { border-radius: 10px 0 0 10px; }
+.food-table tfoot td:last-child { border-radius: 0 10px 10px 0; }

@@ -1,0 +1,44 @@
+/* 프로필 */
+
+.profile__top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+.profile__avatar {
+  display: grid;
+  place-items: center;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: #ebebea;
+  color: #3a3d40;
+}
+.profile__avatar svg { width: 34px; height: 34px; }
+.profile__name { margin: 0; font-size: 24px; font-weight: 800; }
+.profile__id { margin: 2px 0 0; color: var(--text-sub); }
+.profile__disease {
+  margin-left: auto;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background: #e8f4ea;
+  color: var(--green-text);
+  font-weight: 700;
+}
+.profile__stats { grid-template-columns: repeat(4, 1fr); }
+.profile__stats dd small[data-field='bmiLabel'] { margin-left: 6px; color: var(--green-text); }
+
+.form-optional { margin-left: 6px; font-weight: 500; color: var(--text-sub); }
+
+.withdraw { border-color: #f4dede; }
+.withdraw .card-title { color: var(--error); }
+.withdraw__desc { margin: -6px 0 16px; color: var(--text-sub); }
+.withdraw__row { display: flex; align-items: flex-start; gap: 10px; }
+.withdraw__input { flex: 1; }
+.withdraw__row .btn-secondary { height: 52px; }
+
+@media (max-width: 640px) {
+  .profile__stats { grid-template-columns: repeat(2, 1fr); }
+  .withdraw__row { flex-direction: column; align-items: stretch; }
+}

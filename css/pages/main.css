@@ -1,0 +1,127 @@
+/* 메인 (로그인 전·후) */
+
+/* 접시와 YamYam 글자가 화면 정중앙에 오도록:
+   - .home이 화면 높이 전체를 차지하고 그 가운데에 .stage(접시)를 둔다
+   - 버튼·문구는 접시 아래에 따로 붙인다 (가운데 계산에 끼지 않게)
+   - 헤더도 위에 겹쳐 띄워서 가운데 계산에 끼지 않게 한다 */
+.page-home .site-header {
+  position: absolute;
+  inset: 0 0 auto 0;
+}
+.home {
+  --plate-size: clamp(240px, min(34vw, 56vh), 580px);
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+}
+.home .stage {
+  --plate-size: inherit;
+  width: 100%;
+}
+/* 사진 속 접시 원은 사진 가운데보다 2.4% 위에 있어서, 그만큼 내려 원의 중심을 화면 가운데에 맞춘다 */
+.home .plate-wrap { margin-top: calc(var(--plate-size) * 0.048); }
+
+/* 접시 아래에 붙는 영역 (로그인 버튼 / 응원 문구) */
+.home__below {
+  position: absolute;
+  left: 50%;
+  top: calc(50% + var(--plate-size) * 0.5 + 2vh);
+  width: min(560px, 100% - 32px);
+  transform: translateX(-50%);
+}
+
+/* 로그인·회원가입에서 돌아올 때 (index.html의 head 스크립트가 .plate-arrive를 붙임)
+   접시는 main.js가 왼쪽에서 데려오고, 나머지는 접시가 거의 도착할 즈음 나타난다 */
+@keyframes arrive-fade { from { opacity: 0; } }
+.plate-arrive .home { animation: none; }
+.plate-arrive .home .plate-wrap { visibility: hidden; }
+.plate-arrive .home .stage__word,
+.plate-arrive .home .sparks,
+.plate-arrive .home .intake,
+.plate-arrive .home__below,
+.plate-arrive .fab { animation: arrive-fade 0.5s ease-out 0.6s both; }
+
+/* ───── 로그인 전 ───── */
+.home__actions {
+  display: grid;
+  gap: 22px;
+  width: min(390px, 100%);
+  margin: 0 auto;
+}
+
+/* 로그인·회원가입으로 넘어갈 때: 접시만 남기고 나머지는 사라진다 (main.js) */
+.home--leaving .stage__word,
+.home--leaving .sparks,
+.home--leaving .home__actions {
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+
+/* 접시 가운데 숫자 (.plate__circle 영역 안에서 가운데 정렬) */
+.intake {
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.intake p { margin: 0; }
+.intake__label {
+  font-size: clamp(13px, 1.1vw, 19px);
+  font-weight: 600;
+  color: #4a4e52;
+}
+.intake__rate {
+  font-weight: 800;
+  font-size: clamp(48px, 5.6vw, 96px);
+  line-height: 1.05;
+  color: var(--green);
+  letter-spacing: -0.03em;
+}
+.intake__rate small { font-size: 0.7em; margin-left: 2px; }
+.intake__kcal {
+  font-size: clamp(14px, 1.5vw, 25px);
+  color: #55595d;
+  letter-spacing: -0.01em;
+}
+.intake__kcal strong { color: var(--text); font-weight: 800; }
+
+.home__message {
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+  padding: 0 16px;
+  text-align: center;
+}
+.cheer {
+  margin: 0;
+  font-size: clamp(22px, 2.2vw, 36px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.home__detail {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: var(--radius-pill);
+  font-size: 17px;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.home__detail-arrow { display: inline-block; transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
+/* 호버: 연한 초록 알약 배경이 깔리고 화살표가 오른쪽으로 쏙 */
+.home__detail:hover,
+.home__detail:focus-visible {
+  background: #e8f4ea;
+  color: var(--green-deep);
+  box-shadow: 0 6px 16px -8px rgba(46, 110, 64, 0.45);
+}
+.home__detail:hover .home__detail-arrow,
+.home__detail:focus-visible .home__detail-arrow { transform: translateX(5px); }
+
+@media (max-width: 640px) {
+  .home { --plate-size: 72vw; }
+  .home .stage__word { font-size: 14vw; gap: calc(var(--plate-size) * 0.66); }
+}

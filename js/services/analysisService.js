@@ -2,7 +2,7 @@
 // 계산만 한다. 저장하지 않는다.
 
 import { NUTRIENT_KEYS } from '../core/constants.js';
-import { round } from '../core/utils.js';
+import { round, getDiseases } from '../core/utils.js';
 
 // 음식 목록의 영양 합계 → { calorie, carbohydrate, protein, fat, sodium, sugar }
 export function sumNutrition(foods = []) {
@@ -29,6 +29,33 @@ export function calcTargetKcal(user) {
   return Math.round(user.weight * 30);
 }
 
+// 탄단지 열량 비율 % (탄수화물·단백질 4kcal/g, 지방 9kcal/g)
+// → { ratio: { carb, protein, fat }, macroKcal: 탄단지 열량 합 }
+export function calcMacroRatio(total) {
+  const carbKcal = total.carbohydrate * 4;
+  const proteinKcal = total.protein * 4;
+  const fatKcal = total.fat * 9;
+  const macroKcal = carbKcal + proteinKcal + fatKcal;
+  const percent = (kcal) => (macroKcal ? round((kcal / macroKcal) * 100, 1) : 0);
+  return {
+    ratio: { carb: percent(carbKcal), protein: percent(proteinKcal), fat: percent(fatKcal) },
+    macroKcal,
+  };
+}
+
+// 하루 분석 (그날 식단 전체)
+// → { total: 영양 합계, targetKcal: 하루 권장 열량, kcalRate: 권장 대비 %, ratio: 탄단지 비율 % }
+export function analyzeDay(meals, user) {
+  const total = sumNutrition(meals.flatMap((meal) => meal.foods));
+  const targetKcal = calcTargetKcal(user);
+  return {
+    total,
+    targetKcal,
+    kcalRate: targetKcal > 0 ? Math.round((total.calorie / targetKcal) * 100) : 0,
+    ratio: calcMacroRatio(total).ratio,
+  };
+}
+
 // 한 끼 분석
 // 돌려주는 값:
 // {
@@ -44,20 +71,13 @@ export function analyzeMeal(meal, user) {
   const targetKcal = Math.round(meal.mealType === '간식' ? daily / 10 : daily / 3);
   const kcalRate = targetKcal > 0 ? Math.round((total.calorie / targetKcal) * 100) : 0;
 
-  // 탄단지 열량 비율 (탄수화물·단백질 4kcal/g, 지방 9kcal/g)
-  const carbKcal = total.carbohydrate * 4;
-  const proteinKcal = total.protein * 4;
-  const fatKcal = total.fat * 9;
-  const macroKcal = carbKcal + proteinKcal + fatKcal;
-  const ratio = {
-    carb: macroKcal ? round((carbKcal / macroKcal) * 100, 1) : 0,
-    protein: macroKcal ? round((proteinKcal / macroKcal) * 100, 1) : 0,
-    fat: macroKcal ? round((fatKcal / macroKcal) * 100, 1) : 0,
-  };
+  const { ratio, macroKcal } = calcMacroRatio(total);
 
   // 감점 항목 계산 (명세서 7장 표)
-  const hypertension = user.diseaseInfo === '고혈압';
-  const diabetes = user.diseaseInfo === '당뇨';
+  // 질환이 여러 개면 각각 따로 반영된다
+  const diseases = getDiseases(user);
+  const hypertension = diseases.includes('고혈압');
+  const diabetes = diseases.includes('당뇨');
   const deductions = [];
 
   const kcalOver = Math.max(0, Math.abs(kcalRate - 100) - 10);

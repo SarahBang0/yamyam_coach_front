@@ -3,7 +3,7 @@
 // 폼에서 읽은 값은 문자열이라 숫자도 문자열로 들어와도 된다.
 
 import { MEAL_TYPES, DISEASES, NUTRIENT_KEYS } from './constants.js';
-import { today, isNumeric } from './utils.js';
+import { today, isNumeric, getDiseases } from './utils.js';
 
 // 회원 가입·수정
 // mode: 'signup' | 'update' (수정 때는 userId 검사 안 함, 비밀번호는 입력했을 때만 검사)
@@ -37,8 +37,9 @@ export function validateUser(data, mode = 'signup') {
   if (!inRange(data.weight, 20, 300)) {
     errors.weight = '몸무게는 20~300kg 사이로 입력하세요.';
   }
-  if (!DISEASES.includes(data.diseaseInfo)) {
-    errors.diseaseInfo = '질환 정보를 선택하세요.';
+  // 질환은 여러 개 고를 수 있고, 하나도 없으면(빈 배열·'없음') 통과
+  if (!getDiseases(data).every((d) => DISEASES.includes(d))) {
+    errors.diseaseInfo = '질환 정보를 다시 선택하세요.';
   }
   return errors;
 }

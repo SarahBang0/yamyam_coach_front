@@ -1,0 +1,64 @@
+/* 회원가입 (login.css의 .auth 틀 위에 덧붙임) */
+
+/* 폼이 길어서 오른쪽만 스크롤되고, 왼쪽 접시는 화면에 고정 */
+.auth--signup { align-items: start; overflow: visible; }
+.auth--signup .auth__visual {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  min-height: 0;
+  overflow: hidden;
+}
+.auth--signup .auth__panel { padding: 72px 0 64px; }
+.auth--signup .auth__title { margin-bottom: 36px; }
+.auth--signup .auth__form { gap: 14px; }
+
+/* 입력칸 안 오른쪽 작은 버튼 (중복 확인) */
+.field__action {
+  flex: none;
+  height: 38px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: #ecf3ee;
+  color: var(--green-text);
+  font-size: 15px;
+  font-weight: 700;
+}
+.field__action:hover { background: #dfece3; }
+
+/* 입력칸 안 단위 (cm, kg) */
+.field__unit { flex: none; color: var(--text-sub); font-size: 16px; }
+.field input[type='number'] { appearance: textfield; -moz-appearance: textfield; }
+.field input[type='number']::-webkit-inner-spin-button,
+.field input[type='number']::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+
+/* 키·몸무게 나란히 */
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* 질환 정보: 알약 모양 선택 버튼 */
+.choice-group {
+  margin: 6px 0 0;
+  padding: 0;
+  border: 0;
+}
+.choice-group legend {
+  margin-bottom: 10px;
+  padding: 0 4px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #3a3d40;
+}
+.choice-group__multi { margin-left: 6px; font-size: 13px; font-weight: 500; color: var(--text-sub); }
+.choice-group__hint { margin: 10px 4px 0; font-size: 14px; color: var(--text-sub); }
+
+@media (max-width: 860px) {
+  .auth--signup .auth__panel { padding: 40px 0; }
+}
+@media (max-width: 420px) {
+  .field-row { grid-template-columns: 1fr; }
+}

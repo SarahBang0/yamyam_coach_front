@@ -5,6 +5,7 @@ import { STORAGE_KEYS, MESSAGES } from '../core/constants.js';
 import { getAll, saveAll } from '../core/storage.js';
 import { getCurrentUser, logout } from '../core/auth.js';
 import { validateUser } from '../core/validator.js';
+import { getDiseases } from '../core/utils.js';
 
 // 아이디 중복 확인 (탈퇴한 회원의 아이디도 다시 쓸 수 없음)
 export function isUserIdTaken(userId) {
@@ -12,7 +13,7 @@ export function isUserIdTaken(userId) {
 }
 
 // F306 회원 가입
-// data: { userId, password, passwordConfirm, name, height, weight, diseaseInfo }
+// data: { userId, password, passwordConfirm, name, height, weight, diseaseInfo: ['고혈압', …] }
 export function createUser(data) {
   const errors = validateUser(data, 'signup');
   if (!errors.userId && isUserIdTaken(data.userId)) {
@@ -26,7 +27,7 @@ export function createUser(data) {
     name: data.name.trim(),
     height: Number(data.height),
     weight: Number(data.weight),
-    diseaseInfo: data.diseaseInfo,
+    diseaseInfo: getDiseases(data),
     active: true,
   };
   const users = getAll(STORAGE_KEYS.USERS);
@@ -42,7 +43,7 @@ export function getUser(userId) {
 }
 
 // F308 회원 수정 (본인만). userId는 바꿀 수 없고, password는 입력했을 때만 바뀐다
-// data: { password, passwordConfirm, name, height, weight, diseaseInfo }
+// data: { password, passwordConfirm, name, height, weight, diseaseInfo: ['고혈압', …] }
 export function updateUser(userId, data) {
   const denied = checkSelf(userId);
   if (denied) return denied;
@@ -55,7 +56,7 @@ export function updateUser(userId, data) {
   user.name = data.name.trim();
   user.height = Number(data.height);
   user.weight = Number(data.weight);
-  user.diseaseInfo = data.diseaseInfo;
+  user.diseaseInfo = getDiseases(data);
   if (data.password) user.password = data.password;
 
   saveAll(STORAGE_KEYS.USERS, users);

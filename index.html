@@ -1,1 +1,88 @@
-<!-- 메인 -->
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>YamYam</title>
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/pages/main.css">
+  <!-- 로그인·회원가입 화면에서 넘어왔으면 접시가 왼쪽에서 제자리로 돌아오는 효과를 준비 (main.js가 재생)
+       화면이 그려지기 전에 정해야 접시가 가운데에 잠깐 보였다가 튀는 일이 없어서 여기에 둔다 -->
+  <script>
+    try {
+      var fromAuth = /\/pages\/(login|signup)\.html/.test(document.referrer);
+      var reload = (performance.getEntriesByType('navigation')[0] || {}).type === 'reload';
+      var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (fromAuth && !reload && !calm && window.innerWidth > 860) document.documentElement.classList.add('plate-arrive');
+    } catch (e) {}
+  </script>
+</head>
+<body class="page-home">
+  <!-- 헤더: 로그인했을 때만 보임 -->
+  <header class="site-header" data-auth="member" hidden>
+    <a class="logo" href="index.html">YamYam</a>
+    <nav class="site-nav">
+      <a class="site-nav__link" href="pages/meal-list.html">식단 기록</a>
+      <a class="site-nav__link" href="pages/recommend.html">추천식단</a>
+      <a class="site-nav__link" href="pages/mypage.html">프로필</a>
+      <details class="profile-menu">
+        <summary aria-label="내 메뉴">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#3a3d40" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.3-6.5 8-6.5s7 2 8 6.5"/></svg>
+        </summary>
+        <div class="profile-menu__panel">
+          <p class="profile-menu__name"><span data-field="name"></span>님</p>
+          <a class="profile-menu__item" href="pages/mypage.html">프로필</a>
+          <button class="profile-menu__item" type="button" id="logout-btn">로그아웃</button>
+        </div>
+      </details>
+    </nav>
+  </header>
+
+  <!-- 로그인 전 -->
+  <main class="home home--guest" data-auth="guest">
+    <div class="stage">
+      <p class="stage__word" aria-hidden="true"><span>Yam</span><span>Yam</span></p>
+      <div class="plate-wrap">
+        <!-- plate--hero: 로그인·회원가입으로 넘어갈 때 이 접시가 왼쪽으로 미끄러지며 90도 돈다 (main.js) -->
+        <div class="plate plate--hero">
+          <img class="plate__img" src="assets/img/plate-cutlery.webp" alt="">
+        </div>
+        <img class="sparks" src="assets/img/sparks.svg" alt="">
+      </div>
+    </div>
+    <h1 class="sr-only">YamYam</h1>
+    <div class="home__below home__actions">
+      <a class="btn-primary" href="pages/login.html" data-action="plate-transition">로그인하기</a>
+      <p class="helper-text">회원이 아니신가요?<a class="link-green" href="pages/signup.html" data-action="plate-transition">회원가입</a></p>
+    </div>
+  </main>
+
+  <!-- 로그인 후 -->
+  <main class="home home--member" data-auth="member" hidden>
+    <div class="stage">
+      <p class="stage__word" aria-hidden="true"><span>Yam</span><span>Yam</span></p>
+      <div class="plate-wrap">
+        <div class="plate">
+          <img class="plate__img" src="assets/img/plate-cutlery.webp" alt="">
+          <div class="plate__circle intake">
+            <p class="intake__label">오늘의 섭취량</p>
+            <p class="intake__rate"><span data-field="todayRate">0</span><small>%</small></p>
+            <p class="intake__kcal"><strong data-field="todayCalorie">0</strong> / <span data-field="targetKcal">0</span> kcal</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="home__below home__message">
+      <h1 class="cheer"><span data-field="name"></span>님! <span data-field="todayMessage"></span></h1>
+      <a class="link-green home__detail" id="nutrition-link" href="pages/meal-list.html">영양 상세 보기 <span class="home__detail-arrow" aria-hidden="true">→</span></a>
+    </div>
+  </main>
+
+  <!-- 고정 버튼은 애니메이션이 걸리는 main 밖에 둔다 (안에 두면 화면이 아니라 main에 붙음) -->
+  <a class="fab" data-auth="member" hidden href="pages/meal-list.html" aria-label="식단 기록하기">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+  </a>
+
+  <script type="module" src="js/pages/main.js"></script>
+</body>
+</html>

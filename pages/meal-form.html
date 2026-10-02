@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>식단 등록 | YamYam</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/pages/meal-form.css">
+</head>
+<body>
+  <header class="site-header" data-auth="member">
+    <a class="logo" href="../index.html">YamYam</a>
+    <nav class="site-nav">
+      <a class="site-nav__link" href="meal-list.html" aria-current="page">식단 기록</a>
+      <a class="site-nav__link" href="recommend.html">추천식단</a>
+      <a class="site-nav__link" href="mypage.html">프로필</a>
+      <details class="profile-menu">
+        <summary aria-label="내 메뉴"><svg viewBox="0 0 24 24" fill="none" stroke="#3a3d40" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.3-6.5 8-6.5s7 2 8 6.5"/></svg></summary>
+        <div class="profile-menu__panel">
+          <p class="profile-menu__name"><span data-field="name"></span>님</p>
+          <a class="profile-menu__item" href="mypage.html">프로필</a>
+          <button class="profile-menu__item" type="button" id="logout-btn">로그아웃</button>
+        </div>
+      </details>
+    </nav>
+  </header>
+
+  <main class="page">
+    <div class="page-head">
+      <div>
+        <h1 class="page-title" data-field="title">식단 등록</h1>
+        <p class="page-sub">음식을 검색해서 담고, 날짜와 끼니를 골라 저장하세요.</p>
+      </div>
+    </div>
+
+    <div class="meal-form-layout">
+      <!-- 왼쪽: 음식 찾기 -->
+      <section class="card food-finder">
+        <div class="food-finder__head">
+          <h2 class="card-title">음식 찾기</h2>
+          <button class="btn-secondary food-finder__custom" type="button" id="custom-food-open">+ 직접 입력</button>
+        </div>
+        <label class="field field--sm">
+          <svg class="field__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+          <span class="sr-only">음식 검색</span>
+          <input type="search" id="food-search" placeholder="음식 이름 (예: 김밥, 된장찌개)" autocomplete="off">
+        </label>
+
+        <!-- 음식 직접 입력 (식단 폼과 별개의 form) -->
+        <form id="custom-food-form" class="custom-food" novalidate hidden>
+          <p class="custom-food__title">1회 먹은 양 기준으로 입력하세요</p>
+          <div class="form-grid">
+            <div class="form-row custom-food__name">
+              <label class="form-label" for="cf-name">음식 이름</label>
+              <input class="input" id="cf-name" name="foodName" placeholder="예: 닭가슴살 샐러드">
+              <p class="error" data-error="foodName"></p>
+            </div>
+            <div class="form-row"><label class="form-label" for="cf-cal">열량 (kcal)</label><input class="input" id="cf-cal" name="calorie" type="number" min="0" step="0.1"><p class="error" data-error="calorie"></p></div>
+            <div class="form-row"><label class="form-label" for="cf-carb">탄수화물 (g)</label><input class="input" id="cf-carb" name="carbohydrate" type="number" min="0" step="0.1"><p class="error" data-error="carbohydrate"></p></div>
+            <div class="form-row"><label class="form-label" for="cf-protein">단백질 (g)</label><input class="input" id="cf-protein" name="protein" type="number" min="0" step="0.1"><p class="error" data-error="protein"></p></div>
+            <div class="form-row"><label class="form-label" for="cf-fat">지방 (g)</label><input class="input" id="cf-fat" name="fat" type="number" min="0" step="0.1"><p class="error" data-error="fat"></p></div>
+            <div class="form-row"><label class="form-label" for="cf-sodium">나트륨 (mg)</label><input class="input" id="cf-sodium" name="sodium" type="number" min="0" step="0.1"><p class="error" data-error="sodium"></p></div>
+            <div class="form-row"><label class="form-label" for="cf-sugar">당류 (g)</label><input class="input" id="cf-sugar" name="sugar" type="number" min="0" step="0.1"><p class="error" data-error="sugar"></p></div>
+          </div>
+          <button class="btn-secondary custom-food__submit" type="submit">저장하고 담기</button>
+        </form>
+
+        <ul id="food-results" class="food-results"></ul>
+        <p id="food-results-empty" class="empty-state" hidden>찾는 음식이 없어요. <b>+ 직접 입력</b>으로 추가해 보세요.</p>
+      </section>
+
+      <!-- 오른쪽: 내 식단 (저장되는 폼) -->
+      <form id="meal-form" class="card my-meal" novalidate>
+        <h2 class="card-title">내 식단</h2>
+        <div class="form-row">
+          <label class="form-label" for="meal-date">날짜</label>
+          <input class="input" id="meal-date" type="date" name="date">
+          <p class="error" data-error="date"></p>
+        </div>
+        <div class="form-row">
+          <span class="form-label">끼니</span>
+          <div class="choice-list">
+            <label class="choice"><input type="radio" name="mealType" value="아침"><span>아침</span></label>
+            <label class="choice"><input type="radio" name="mealType" value="점심"><span>점심</span></label>
+            <label class="choice"><input type="radio" name="mealType" value="저녁"><span>저녁</span></label>
+            <label class="choice"><input type="radio" name="mealType" value="간식"><span>간식</span></label>
+          </div>
+          <p class="error" data-error="mealType"></p>
+        </div>
+        <div class="form-row">
+          <span class="form-label">담은 음식</span>
+          <ul id="selected-foods" class="selected-foods"></ul>
+          <p id="selected-empty" class="selected-empty">왼쪽에서 음식을 담아 주세요.</p>
+          <p class="error" data-error="foods"></p>
+        </div>
+        <p class="my-meal__total">합계 <strong data-field="totalCalorie">0</strong> kcal</p>
+        <p class="error" data-error="form"></p>
+        <div class="form-actions">
+          <a class="btn-secondary" id="cancel-btn" href="meal-list.html">취소</a>
+          <button class="btn-primary" type="submit">저장하기</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <template id="food-result-item">
+    <li class="food-result">
+      <div class="food-result__info">
+        <p class="food-result__name" data-field="foodName"></p>
+        <p class="food-result__meta"><span data-field="servingText"></span> · <span data-field="calorie"></span> kcal</p>
+      </div>
+      <button class="food-result__add" type="button" data-action="add" aria-label="담기">+</button>
+    </li>
+  </template>
+
+  <template id="selected-food-item">
+    <li class="selected-food">
+      <span class="selected-food__name" data-field="foodName"></span>
+      <span class="selected-food__kcal"><span data-field="calorie"></span> kcal</span>
+      <button class="selected-food__remove" type="button" data-action="remove" aria-label="빼기">×</button>
+    </li>
+  </template>
+
+  <script type="module" src="../js/pages/meal-form.js"></script>
+</body>
+</html>

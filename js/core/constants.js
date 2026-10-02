@@ -11,8 +11,9 @@ export const STORAGE_KEYS = {
 // 끼니 (저장·표시 모두 한글 그대로 사용)
 export const MEAL_TYPES = ['아침', '점심', '저녁', '간식'];
 
-// 질환 정보
-export const DISEASES = ['없음', '고혈압', '당뇨'];
+// 질환 정보 (여러 개 선택 가능, 저장은 배열: [] 또는 ['고혈압', '당뇨'])
+export const DISEASES = ['고혈압', '당뇨'];
+export const NO_DISEASE = '없음'; // 화면에서 '해당 없음'을 고르는 값 (저장할 때는 빈 배열)
 
 // 식단 한 개에 들어가는 영양 필드 (meals.json의 foods 항목과 같은 이름)
 export const NUTRIENT_KEYS = ['calorie', 'carbohydrate', 'protein', 'fat', 'sodium', 'sugar'];

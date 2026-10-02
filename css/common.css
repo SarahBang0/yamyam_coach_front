@@ -1,1 +1,531 @@
-/* 공통 (헤더, 색상, 폰트) */
+/* 공통 (색상, 폰트, 헤더, 버튼, 입력칸, 접시·식기 장식) */
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&display=swap');
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+
+:root {
+  /* 접시 그림자: 기본(아래로) / 왼쪽으로 90도 돌린 접시용(돌린 뒤에도 화면 아래로 떨어지게) */
+  --plate-shadow: drop-shadow(0px 18px 22px rgba(90, 70, 40, 0.2)) drop-shadow(0px 3px 5px rgba(90, 70, 40, 0.14));
+  --plate-shadow-rotated: drop-shadow(-18px 0px 22px rgba(90, 70, 40, 0.2)) drop-shadow(-3px 0px 5px rgba(90, 70, 40, 0.14));
+  --bg: #faf9f5;
+  --text: #1c1c1a;
+  --text-sub: #5f6368;
+  --line: #dcdcd7;
+  --green: #2c9a3f;        /* 게이지, 강조 숫자 */
+  --green-deep: #3e7b50;   /* 큰 버튼 */
+  --green-text: #2a7a37;   /* 초록 글자 링크 */
+  --error: #d14343;
+  --font: 'Pretendard', -apple-system, 'Malgun Gothic', sans-serif;
+  --font-logo: 'Fredoka', 'Pretendard', sans-serif;
+  --radius-pill: 999px;
+}
+
+* { box-sizing: border-box; }
+
+/* ───── 화면 전환 ─────
+   새 화면: 내용이 아래에서 살짝 떠오르며 나타난다 (헤더는 그대로 있어서 화면이 이어져 보임)
+   떠날 때: ui.js의 go()가 <html>에 .is-leaving을 붙이면 내용이 살짝 사라진 뒤 이동 */
+@keyframes page-in { from { opacity: 0; transform: translateY(12px); } }
+@keyframes page-out { to { opacity: 0; transform: translateY(-8px); } }
+.page,
+.home,
+.auth__panel { animation: page-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.is-leaving .page,
+.is-leaving .home,
+.is-leaving .auth__panel { animation: page-out 0.2s ease-in forwards; }
+@media (prefers-reduced-motion: reduce) {
+  .page, .home, .auth__panel,
+  .is-leaving .page, .is-leaving .home, .is-leaving .auth__panel { animation: none; }
+}
+[hidden] { display: none !important; }
+
+html, body { margin: 0; }
+body {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; cursor: pointer; }
+
+.logo {
+  display: inline-block;
+  font-family: var(--font-logo);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-size: 30px;
+  line-height: 1;
+  transition: color 0.2s, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+/* 로고 호버: 초록색으로 바뀌며 살짝 기울어 통통 튄다 */
+.logo:hover,
+.logo:focus-visible { color: var(--green-deep); transform: rotate(-4deg) scale(1.06); }
+
+/* ───── 헤더 ───── */
+.site-header {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px clamp(20px, 4vw, 64px);
+}
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 3vw, 48px);
+}
+.site-nav__link {
+  position: relative;
+  padding: 8px 2px;
+  font-size: 17px;
+  font-weight: 600;
+  color: #3a3d40;
+  transition: color 0.2s;
+}
+/* 밑줄: 지금 화면은 항상, 다른 메뉴는 마우스를 올리면 가운데에서 양옆으로 자라난다 */
+.site-nav__link::after {
+  content: '';
+  position: absolute;
+  left: -4px;
+  right: -4px;
+  bottom: -6px;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--green);
+  transform: scaleX(0);
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s;
+}
+.site-nav__link:hover,
+.site-nav__link:focus-visible { color: var(--green-text); }
+.site-nav__link:hover::after,
+.site-nav__link:focus-visible::after { transform: scaleX(1); opacity: 0.45; }
+.site-nav__link[aria-current='page'] { color: var(--text); }
+.site-nav__link[aria-current='page']::after { transform: scaleX(1); opacity: 1; }
+
+/* 프로필 아이콘 → 펼침 메뉴 (details 태그라 JS 없이 열고 닫힘) */
+.profile-menu { position: relative; }
+.profile-menu summary {
+  list-style: none;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #ebebea;
+  cursor: pointer;
+}
+.profile-menu summary::-webkit-details-marker { display: none; }
+.profile-menu summary { transition: background 0.2s, box-shadow 0.2s; }
+.profile-menu summary:hover,
+.profile-menu[open] summary { background: #e1e6e1; box-shadow: 0 0 0 4px rgba(62, 123, 80, 0.12); }
+.profile-menu summary svg { width: 26px; height: 26px; }
+.profile-menu__panel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  min-width: 160px;
+  padding: 8px;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+.profile-menu__name {
+  padding: 10px 12px 6px;
+  font-size: 14px;
+  color: var(--text-sub);
+}
+.profile-menu__item {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  text-align: left;
+  font-size: 15px;
+}
+.profile-menu__item:hover { background: #f3f3f1; }
+
+/* ───── 버튼 ───── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 64px;
+  padding: 0 32px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--green-deep);
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  box-shadow: 0 6px 16px rgba(62, 123, 80, 0.25);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(62, 123, 80, 0.3); }
+
+.link-green { color: var(--green-text); font-weight: 700; }
+
+.helper-text {
+  text-align: center;
+  color: var(--text-sub);
+  font-size: 17px;
+}
+.helper-text .link-green { margin-left: 14px; }
+
+/* ───── 입력칸 (아이콘 + 입력 + 버튼) ───── */
+.field {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 62px;
+  padding: 0 20px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  transition: border-color 0.15s;
+}
+.field:focus-within { border-color: var(--green-deep); }
+.field__icon { flex: none; width: 24px; height: 24px; color: #6b6f73; }
+.field input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  background: none;
+  font: inherit;
+  font-size: 18px;
+}
+.field input::placeholder { color: #8a8e92; }
+
+/* 비밀번호 보기 버튼: 보이는 중이면 class="is-visible" (JS) */
+.toggle-password {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: #4a4e52;
+}
+.toggle-password svg { width: 26px; height: 26px; }
+.toggle-password .icon-eye-off { display: none; }
+.toggle-password.is-visible .icon-eye { display: none; }
+.toggle-password.is-visible .icon-eye-off { display: block; }
+
+/* 오류 메시지 (data-error), 성공 안내는 class="ok" */
+.error {
+  margin: 6px 4px 0;
+  min-height: 0;
+  font-size: 14px;
+  color: var(--error);
+}
+.error:empty { display: none; }
+.error.ok { color: var(--green-text); }
+
+/* ───── 큰 YamYam 글자 + 접시 (메인·로그인 장식) ───── */
+.stage {
+  --plate-size: clamp(260px, 34vw, 580px); /* 접시 사진 전체 크기 (접시 지름은 이 값의 80%) */
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+/* 'Yam' 두 덩어리를 접시 양옆으로 벌려서 접시에 가려지지 않게 */
+.stage__word {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--plate-size) * 0.6);
+  margin: 0;
+  font-family: var(--font-logo);
+  font-weight: 700;
+  font-size: clamp(72px, 17vw, 300px);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: #1f1f1d;
+  user-select: none;
+  pointer-events: none;
+}
+
+.plate-wrap {
+  position: relative;
+  width: var(--plate-size);
+  aspect-ratio: 1;
+}
+.plate {
+  position: absolute;
+  inset: 0;
+}
+.plate__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+  pointer-events: none;
+  /* 그림자는 사진에서 빼고 CSS로 넣는다 (접시가 돌아가면 main.js가 그림자 방향도 함께 바꾼다) */
+  filter: var(--plate-shadow);
+}
+/* 사진 속 접시 원 영역 (접시 중심이 사진 가운데보다 조금 위에 있음) */
+.plate__circle {
+  position: absolute;
+  left: 10%;
+  top: 7.6%;
+  width: 80%;
+  height: 80%;
+}
+/* 초록 선: .plate-wrap 안, 접시 오른쪽 위 */
+.sparks {
+  position: absolute;
+  right: 4%;
+  top: 4%;
+  width: 12%;
+  height: auto;
+  pointer-events: none;
+}
+
+/* 화면 오른쪽 아래 떠 있는 동그란 + 버튼 */
+.fab {
+  position: fixed;
+  right: clamp(20px, 3.5vw, 56px);
+  bottom: clamp(20px, 6vh, 80px);
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: var(--green-deep);
+  color: #fff;
+  box-shadow: 0 12px 28px rgba(46, 110, 64, 0.35);
+  transition: transform 0.15s;
+}
+.fab:hover { transform: scale(1.05); }
+.fab svg { width: 40px; height: 40px; }
+
+/* ───── 앱 화면 공통 (목록·작성·상세·추천·프로필) ───── */
+.page {
+  width: min(960px, 100%);
+  margin: 0 auto;
+  padding: 12px clamp(16px, 4vw, 32px) 140px;
+}
+.page--narrow { width: min(720px, 100%); }
+.page-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 24px 0 28px;
+  text-align: left;
+}
+.page-title {
+  margin: 0;
+  font-size: clamp(28px, 3vw, 38px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.page-sub { margin: 8px 0 0; color: var(--text-sub); font-size: 16px; }
+
+.card {
+  padding: clamp(20px, 3vw, 28px);
+  border: 1px solid #ecebe5;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 10px 30px -12px rgba(60, 50, 30, 0.12);
+}
+.card + .card { margin-top: 20px; }
+.card-title { margin: 0 0 16px; font-size: 19px; font-weight: 800; }
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 48px;
+  padding: 0 22px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  color: #3a3d40;
+  transition: border-color 0.15s, background 0.15s;
+}
+.btn-secondary:hover { border-color: var(--green-deep); }
+.btn-secondary--danger { color: var(--error); }
+.btn-secondary--danger:hover { border-color: var(--error); background: #fff6f6; }
+.btn-primary--inline { width: auto; height: 52px; font-size: 17px; }
+
+/* 등급 배지: JS가 data-grade="A"~"D"를 붙인다 */
+.grade {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #eef0ee;
+  font-family: var(--font-logo);
+  font-size: 20px;
+  font-weight: 700;
+  color: #555;
+}
+.grade[data-grade='A'] { background: #e3f4e6; color: #1f7a35; }
+.grade[data-grade='B'] { background: #e6f1f6; color: #22638a; }
+.grade[data-grade='C'] { background: #fdf1dc; color: #9a6410; }
+.grade[data-grade='D'] { background: #fde6e4; color: #b23a32; }
+
+/* 가로 막대: JS가 .bar-fill 너비를 바꾼다 */
+.bar {
+  height: 10px;
+  border-radius: 999px;
+  background: #edf0ec;
+  overflow: hidden;
+}
+.bar-fill {
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #2c9a3f, #5cc46e);
+  transition: width 0.6s ease-out;
+}
+
+/* 탄단지 막대 3줄 */
+.macro { display: grid; gap: 14px; }
+.macro__row {
+  display: grid;
+  grid-template-columns: 74px 1fr 64px;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+}
+.macro__name { font-weight: 700; }
+.macro__value { text-align: right; font-weight: 700; }
+.macro__range { margin: 0; font-size: 13px; color: var(--text-sub); }
+.macro__row--protein .bar-fill { background: linear-gradient(90deg, #22638a, #4ea3d1); }
+.macro__row--fat .bar-fill { background: linear-gradient(90deg, #c27a12, #f0b04a); }
+
+/* 알약 모양 선택 버튼 (radio) */
+.choice-list { display: flex; flex-wrap: wrap; gap: 10px; }
+.choice { position: relative; flex: 1; min-width: 72px; }
+.choice input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  margin: 0;
+  cursor: pointer;
+}
+.choice span {
+  display: grid;
+  place-items: center;
+  height: 50px;
+  padding: 0 16px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  color: #4a4e52;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.choice input:checked + span { border-color: var(--green-deep); background: var(--green-deep); color: #fff; }
+.choice input[type='checkbox']:checked + span::before { content: '✓ '; white-space: pre; }
+.choice span:hover { border-color: var(--green-deep); }
+.choice input:focus-visible + span { outline: 3px solid rgba(62, 123, 80, 0.35); outline-offset: 2px; }
+
+/* 영양소 숫자 칸 */
+.nutrients {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  margin: 0;
+}
+.nutrients div { padding: 14px 16px; border-radius: 14px; background: #f6f6f2; }
+.nutrients dt { font-size: 14px; color: var(--text-sub); }
+.nutrients dd { margin: 4px 0 0; font-size: 20px; font-weight: 800; }
+.nutrients dd small { margin-left: 2px; font-size: 13px; font-weight: 600; color: var(--text-sub); }
+
+/* 폼 (앱 화면) */
+.form-row { display: grid; gap: 8px; }
+.form-row + .form-row { margin-top: 20px; }
+.form-grid > .form-row + .form-row { margin-top: 0; }
+.form-label { font-size: 15px; font-weight: 700; color: #3a3d40; }
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 12px;
+}
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+.form-actions .btn-primary { flex: 1; height: 56px; font-size: 18px; }
+.input {
+  width: 100%;
+  height: 52px;
+  padding: 0 16px;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  font: inherit;
+  font-size: 16px;
+  outline: 0;
+  transition: border-color 0.15s;
+}
+.input:focus { border-color: var(--green-deep); }
+.field--sm { height: 52px; padding: 0 14px; border-radius: 12px; }
+.field--sm input { font-size: 16px; }
+
+/* 둥근 태그 목록 */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.chips li {
+  padding: 7px 12px;
+  border-radius: var(--radius-pill);
+  background: #f3f2ec;
+  font-size: 14px;
+  font-weight: 600;
+}
+.chips--green li { background: #e8f4ea; color: var(--green-text); }
+
+.section-title { margin: 32px 0 16px; font-size: 22px; font-weight: 800; }
+.back-link { display: inline-block; margin-top: 24px; color: var(--text-sub); font-weight: 600; }
+
+.empty-state {
+  padding: 40px 16px;
+  text-align: center;
+  color: var(--text-sub);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .page-head { margin: 12px 0 20px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .site-header { padding: 18px 16px; }
+  .site-nav { gap: 14px; }
+  .site-nav__link { font-size: 15px; }
+  .profile-menu summary { width: 44px; height: 44px; }
+  .logo { font-size: 24px; }
+  .fab { width: 64px; height: 64px; }
+  .fab svg { width: 30px; height: 30px; }
+}

@@ -1,0 +1,82 @@
+/* 식단 목록 + 하루 영양 요약 */
+
+.day-summary__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.day-summary__count { color: var(--text-sub); font-size: 15px; }
+.day-summary__kcal { margin: 0 0 10px; font-size: 18px; color: #55595d; }
+.day-summary__kcal strong { font-size: 30px; font-weight: 800; color: var(--text); }
+.day-summary__kcal em {
+  margin-left: 8px;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  background: #e8f4ea;
+  color: var(--green-text);
+  font-style: normal;
+  font-size: 15px;
+  font-weight: 700;
+}
+.bar--lg { height: 14px; }
+.day-summary__grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 28px;
+  margin-top: 26px;
+  align-items: start;
+}
+.day-summary .nutrients { grid-template-columns: repeat(3, 1fr); }
+
+/* 필터 */
+.filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.filter__date { flex: 0 0 200px; }
+.filter__date .input { height: 50px; }
+.choice-list--compact { flex: 1; min-width: 280px; }
+.choice-list--compact .choice { min-width: 56px; }
+
+/* 목록 */
+.meal-list { margin: 0; padding: 0; list-style: none; }
+.meal-list li + li { border-top: 1px solid #f0efe9; }
+.meal-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 8px;
+  border-radius: 14px;
+  transition: background 0.15s;
+}
+.meal-item:hover { background: #f7f7f3; }
+.meal-item__type {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: #f1f5ef;
+  color: var(--green-text);
+  font-weight: 800;
+}
+.meal-item__body { flex: 1; min-width: 0; }
+.meal-item__foods {
+  margin: 0;
+  overflow: hidden;
+  font-size: 17px;
+  font-weight: 700;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.meal-item__meta { margin: 4px 0 0; color: var(--text-sub); font-size: 14px; }
+
+@media (max-width: 760px) {
+  .day-summary__grid { grid-template-columns: 1fr; }
+  .filter__date { flex: 1 1 100%; }
+  .choice-list--compact { min-width: 0; }
+}

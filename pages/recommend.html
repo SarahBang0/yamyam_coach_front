@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>추천식단 | YamYam</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/pages/recommend.css">
+</head>
+<body>
+  <header class="site-header" data-auth="member">
+    <a class="logo" href="../index.html">YamYam</a>
+    <nav class="site-nav">
+      <a class="site-nav__link" href="meal-list.html">식단 기록</a>
+      <a class="site-nav__link" href="recommend.html" aria-current="page">추천식단</a>
+      <a class="site-nav__link" href="mypage.html">프로필</a>
+      <details class="profile-menu">
+        <summary aria-label="내 메뉴"><svg viewBox="0 0 24 24" fill="none" stroke="#3a3d40" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.3-6.5 8-6.5s7 2 8 6.5"/></svg></summary>
+        <div class="profile-menu__panel">
+          <p class="profile-menu__name"><span data-field="name"></span>님</p>
+          <a class="profile-menu__item" href="mypage.html">프로필</a>
+          <button class="profile-menu__item" type="button" id="logout-btn">로그아웃</button>
+        </div>
+      </details>
+    </nav>
+  </header>
+
+  <main class="page">
+    <div class="page-head rec-head">
+      <div>
+        <h1 class="page-title">추천식단</h1>
+        <p class="page-sub">
+          <b data-field="name"></b>님의 몸무게와 질환(<b data-field="diseaseInfo"></b>)에 맞춰 점수가 높은 조합을 골랐어요.
+        </p>
+      </div>
+      <div class="rec-remain">
+        <span>오늘 남은 열량</span>
+        <strong><span data-field="remainKcal">0</span> kcal</strong>
+      </div>
+    </div>
+
+    <form id="recommend-filter" class="rec-filter">
+      <div class="choice-list">
+        <label class="choice"><input type="radio" name="mealType" value="아침"><span>아침</span></label>
+        <label class="choice"><input type="radio" name="mealType" value="점심"><span>점심</span></label>
+        <label class="choice"><input type="radio" name="mealType" value="저녁"><span>저녁</span></label>
+        <label class="choice"><input type="radio" name="mealType" value="간식"><span>간식</span></label>
+      </div>
+    </form>
+
+    <h2 class="section-title"><span data-field="mealType"></span> 추천 TOP 3</h2>
+    <ul id="recommend-list" class="rec-list"></ul>
+  </main>
+
+  <template id="recommend-item">
+    <li class="card rec-card">
+      <div class="rec-card__head">
+        <span class="rec-card__rank"><span data-field="rank"></span>위</span>
+        <span class="rec-card__score"><strong data-field="score"></strong>점</span>
+        <span class="grade" data-field="grade"></span>
+      </div>
+      <ul class="chips rec-card__foods" data-list="foods"></ul>
+      <dl class="rec-card__stats">
+        <div><dt>열량 <small>kcal</small></dt><dd data-field="calorie"></dd></div>
+        <div><dt>단백질 <small>g</small></dt><dd data-field="protein"></dd></div>
+        <div><dt>나트륨 <small>mg</small></dt><dd data-field="sodium"></dd></div>
+      </dl>
+      <ul class="chips chips--green rec-card__tags" data-list="highlights"></ul>
+      <button class="btn-primary rec-card__btn" type="button" data-action="record">이 식단으로 기록하기</button>
+    </li>
+  </template>
+
+  <script type="module" src="../js/pages/recommend.js"></script>
+</body>
+</html>

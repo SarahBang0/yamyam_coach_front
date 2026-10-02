@@ -1,8 +1,8 @@
 // 마이페이지: 내 정보, 정보 수정, 회원 탈퇴 (docs/화면설계.md 5-3)
 
 import { getCurrentUser, requireLogin } from '../core/auth.js';
-import { homeUrl } from '../core/utils.js';
-import { $, initLayout, fillFields, fillForm, readForm, setMessage, showErrors, showResult } from '../core/ui.js';
+import { homeUrl, formatDiseases, getDiseases } from '../core/utils.js';
+import { $, initLayout, fillFields, fillForm, readForm, setMessage, showErrors, showResult, go } from '../core/ui.js';
 import { updateUser, deactivateUser } from '../services/userService.js';
 import { calcBMI, calcTargetKcal } from '../services/analysisService.js';
 
@@ -17,14 +17,14 @@ if (requireLogin()) {
 function renderInfo() {
   const user = getCurrentUser();
   const { bmi, bmiLabel } = calcBMI(user);
-  fillFields(document, { ...user, bmi, bmiLabel, targetKcal: calcTargetKcal(user) });
+  fillFields(document, { ...user, diseaseInfo: formatDiseases(user), bmi, bmiLabel, targetKcal: calcTargetKcal(user) });
   fillForm($('#user-form'), {
     password: '',
     passwordConfirm: '',
     name: user.name,
     height: user.height,
     weight: user.weight,
-    diseaseInfo: user.diseaseInfo,
+    diseaseInfo: getDiseases(user),
   });
 }
 
@@ -54,6 +54,6 @@ function setupWithdrawForm() {
     const result = deactivateUser(getCurrentUser()?.userId, password);
     if (showResult(form, result)) return;
     alert('탈퇴되었습니다.');
-    window.location.href = homeUrl();
+    go(homeUrl());
   });
 }

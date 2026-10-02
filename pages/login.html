@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>로그인 | YamYam</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/pages/login.css">
+</head>
+<body>
+  <main class="auth">
+    <!-- 왼쪽 장식 -->
+    <div class="auth__visual" aria-hidden="true">
+      <div class="plate-wrap">
+        <!-- 메인에서 넘어올 때 접시가 미끄러져 멈추는 자리 (위치를 바꾸면 main.js의 계산도 함께 바꿀 것) -->
+        <div class="plate">
+          <img class="plate__img" src="../assets/img/plate-cutlery.webp" alt="">
+        </div>
+        <img class="sparks" src="../assets/img/sparks.svg" alt="">
+      </div>
+    </div>
+
+    <!-- 오른쪽 로그인 폼 -->
+    <section class="auth__panel">
+      <a class="logo auth__logo" href="../index.html">YamYam</a>
+      <h1 class="auth__title">로그인</h1>
+
+      <form id="login-form" class="auth__form" novalidate>
+        <div>
+          <label class="field">
+            <svg class="field__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.3-6.5 8-6.5s7 2 8 6.5"/></svg>
+            <span class="sr-only">아이디</span>
+            <input name="userId" placeholder="아이디" autocomplete="username">
+          </label>
+          <p class="error" data-error="userId"></p>
+        </div>
+
+        <div>
+          <div class="field">
+            <svg class="field__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><path d="M12 14.5v2.5"/></svg>
+            <label class="sr-only" for="login-password">비밀번호</label>
+            <input id="login-password" name="password" type="password" placeholder="비밀번호" autocomplete="current-password">
+            <button class="toggle-password" type="button" data-action="toggle-password" aria-label="비밀번호 보기">
+              <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="icon-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg>
+            </button>
+          </div>
+          <p class="error" data-error="password"></p>
+        </div>
+
+        <p class="error auth__form-error" data-error="form"></p>
+        <button class="btn-primary" type="submit">로그인하기</button>
+      </form>
+
+      <p class="helper-text">회원이 아니신가요?<a class="link-green" href="signup.html">회원가입</a></p>
+    </section>
+  </main>
+
+  <script type="module" src="../js/pages/login.js"></script>
+</body>
+</html>

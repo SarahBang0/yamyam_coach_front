@@ -3,7 +3,7 @@
 import { login, requireGuest } from '../core/auth.js';
 import { validateLogin } from '../core/validator.js';
 import { getQueryParam, homeUrl } from '../core/utils.js';
-import { $, initLayout, readForm, showErrors } from '../core/ui.js';
+import { $, initLayout, readForm, showErrors, go } from '../core/ui.js';
 
 if (requireGuest()) {
   initLayout();
@@ -19,7 +19,7 @@ function setupLoginForm() {
 
     const result = login((data.userId ?? '').trim(), data.password ?? '');
     if (showErrors(form, {}, result.message)) return;
-    window.location.href = redirectTarget();
+    go(redirectTarget());
   });
 }
 

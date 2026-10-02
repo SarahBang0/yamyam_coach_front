@@ -4,7 +4,7 @@
 import { requireLogin } from '../core/auth.js';
 import { MESSAGES } from '../core/constants.js';
 import { getQueryParam, pageUrl } from '../core/utils.js';
-import { $, initLayout, fillFields, renderList, setBar, setLink } from '../core/ui.js';
+import { $, initLayout, fillFields, renderList, setBar, setLink, go } from '../core/ui.js';
 import { getMealById, deleteMeal } from '../services/mealService.js';
 import { analyzeMeal } from '../services/analysisService.js';
 
@@ -15,7 +15,7 @@ if (requireLogin()) {
     renderMeal(meal, user);
   } else {
     alert(MESSAGES.MEAL_NOT_FOUND);
-    window.location.href = pageUrl('meal-list.html');
+    go(pageUrl('meal-list.html'));
   }
 }
 
@@ -58,6 +58,6 @@ function renderMeal(meal, user) {
       alert(result.message);
       return;
     }
-    window.location.href = pageUrl('meal-list.html');
+    go(pageUrl('meal-list.html'));
   });
 }

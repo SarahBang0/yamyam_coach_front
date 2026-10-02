@@ -4,7 +4,7 @@
 import { login, requireGuest } from '../core/auth.js';
 import { validateUser } from '../core/validator.js';
 import { homeUrl } from '../core/utils.js';
-import { $, initLayout, readForm, setMessage, showResult } from '../core/ui.js';
+import { $, initLayout, readForm, setMessage, showResult, go } from '../core/ui.js';
 import { createUser, isUserIdTaken } from '../services/userService.js';
 
 if (requireGuest()) {
@@ -28,7 +28,7 @@ function setupSignupForm() {
     if (showResult(form, result)) return;
 
     login(result.data.userId, data.password);
-    window.location.href = homeUrl();
+    go(homeUrl());
   });
 }
 

@@ -4,7 +4,7 @@
 import { requireLogin } from '../core/auth.js';
 import { MESSAGES } from '../core/constants.js';
 import { today, debounce, getQueryParam, pageUrl } from '../core/utils.js';
-import { $, initLayout, fillFields, fillForm, readForm, renderList, setLink, setMessage, showResult } from '../core/ui.js';
+import { $, initLayout, fillFields, fillForm, readForm, renderList, setLink, setMessage, showResult, go } from '../core/ui.js';
 import { createMeal, getMealById, updateMeal } from '../services/mealService.js';
 import { searchFoods, addCustomFood } from '../services/foodService.js';
 import { sumNutrition } from '../services/analysisService.js';
@@ -26,7 +26,7 @@ function init() {
     const meal = getMealById(mealId);
     if (!meal) {
       alert(MESSAGES.MEAL_NOT_FOUND);
-      window.location.href = pageUrl('meal-list.html');
+      go(pageUrl('meal-list.html'));
       return;
     }
     fillFields(document, { title: '식단 수정' });
@@ -46,7 +46,7 @@ function init() {
     const data = { ...readForm(form), foods };
     const result = mealId ? updateMeal(mealId, data) : createMeal(data);
     if (showResult(form, result)) return;
-    window.location.href = pageUrl(`meal-detail.html?id=${result.data.mealId}`);
+    go(pageUrl(`meal-detail.html?id=${result.data.mealId}`));
   });
 }
 

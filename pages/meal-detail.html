@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>식단 분석 | YamYam</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/pages/meal-detail.css">
+</head>
+<body>
+  <header class="site-header" data-auth="member">
+    <a class="logo" href="../index.html">YamYam</a>
+    <nav class="site-nav">
+      <a class="site-nav__link" href="meal-list.html" aria-current="page">식단 기록</a>
+      <a class="site-nav__link" href="recommend.html">추천식단</a>
+      <a class="site-nav__link" href="mypage.html">프로필</a>
+      <details class="profile-menu">
+        <summary aria-label="내 메뉴"><svg viewBox="0 0 24 24" fill="none" stroke="#3a3d40" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.3-6.5 8-6.5s7 2 8 6.5"/></svg></summary>
+        <div class="profile-menu__panel">
+          <p class="profile-menu__name"><span data-field="name"></span>님</p>
+          <a class="profile-menu__item" href="mypage.html">프로필</a>
+          <button class="profile-menu__item" type="button" id="logout-btn">로그아웃</button>
+        </div>
+      </details>
+    </nav>
+  </header>
+
+  <main class="page page--narrow">
+    <div class="page-head">
+      <div>
+        <p class="page-sub detail-date" data-field="date"></p>
+        <h1 class="page-title"><span data-field="mealType"></span> 식단 분석</h1>
+      </div>
+      <div class="detail-actions">
+        <a class="btn-secondary" id="edit-btn">수정</a>
+        <button class="btn-secondary btn-secondary--danger" type="button" id="delete-btn">삭제</button>
+      </div>
+    </div>
+
+    <!-- 점수 -->
+    <section class="card score-card">
+      <div class="score-card__main">
+        <span class="grade grade--xl" data-field="grade"></span>
+        <div>
+          <p class="score-card__score"><strong data-field="score">0</strong>점</p>
+          <p class="score-card__kcal"><b data-field="calorie">0</b> / 목표 <span data-field="targetKcal">0</span> kcal · <span data-field="kcalRate">0</span>%</p>
+        </div>
+      </div>
+      <ul id="advice-list" class="advice"></ul>
+    </section>
+
+    <!-- 탄단지 비율 -->
+    <section class="card">
+      <h2 class="card-title">탄단지 비율</h2>
+      <div class="macro">
+        <div class="macro__row" id="macro-carb">
+          <span class="macro__name">탄수화물</span>
+          <div class="bar"><div class="bar-fill"></div></div>
+          <span class="macro__value"><span data-field="value">0</span>%</span>
+        </div>
+        <div class="macro__row macro__row--protein" id="macro-protein">
+          <span class="macro__name">단백질</span>
+          <div class="bar"><div class="bar-fill"></div></div>
+          <span class="macro__value"><span data-field="value">0</span>%</span>
+        </div>
+        <div class="macro__row macro__row--fat" id="macro-fat">
+          <span class="macro__name">지방</span>
+          <div class="bar"><div class="bar-fill"></div></div>
+          <span class="macro__value"><span data-field="value">0</span>%</span>
+        </div>
+        <p class="macro__range">권장: 탄수화물 55~65% · 단백질 7~20% · 지방 15~30%</p>
+      </div>
+    </section>
+
+    <!-- 음식 표 -->
+    <section class="card">
+      <h2 class="card-title">먹은 음식</h2>
+      <div class="table-wrap">
+        <table class="food-table">
+          <thead>
+            <tr><th>음식</th><th>열량<small>kcal</small></th><th>탄수화물<small>g</small></th><th>단백질<small>g</small></th><th>지방<small>g</small></th><th>나트륨<small>mg</small></th><th>당류<small>g</small></th></tr>
+          </thead>
+          <tbody id="food-rows"></tbody>
+          <tfoot id="food-total">
+            <tr><th>합계</th><td data-field="calorie"></td><td data-field="carbohydrate"></td><td data-field="protein"></td><td data-field="fat"></td><td data-field="sodium"></td><td data-field="sugar"></td></tr>
+          </tfoot>
+        </table>
+      </div>
+    </section>
+
+    <a class="back-link" href="meal-list.html">← 식단 목록으로</a>
+  </main>
+
+  <template id="food-row">
+    <tr><th data-field="foodName"></th><td data-field="calorie"></td><td data-field="carbohydrate"></td><td data-field="protein"></td><td data-field="fat"></td><td data-field="sodium"></td><td data-field="sugar"></td></tr>
+  </template>
+
+  <script type="module" src="../js/pages/meal-detail.js"></script>
+</body>
+</html>
