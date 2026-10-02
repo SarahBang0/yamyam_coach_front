@@ -1,82 +1,109 @@
-/* 식단 목록 + 하루 영양 요약 */
+/* 식단 기록: 박스 없이, 날짜 하나를 중심으로 (날짜 → 영양 요약 → 식사 목록) */
 
-.day-summary__head {
+/* 날짜 이동 */
+.date-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 36px;
+}
+.date-bar__step {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  font-size: 26px;
+  line-height: 1;
+  color: var(--text-2);
+  transition: background 0.15s;
+}
+.date-bar__step:hover:not(:disabled) { background: var(--surface); }
+.date-bar__step:disabled { opacity: 0.2; cursor: default; }
+.date-bar .datepicker__trigger { background: var(--surface); }
+.date-bar .datepicker__trigger:hover { background: var(--surface-strong); }
+.date-bar .datepicker__panel { left: 50%; margin-left: -160px; }
+
+/* 영양 요약 */
+.day__kcal {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 14px;
+}
+.day__kcal strong { font-size: 44px; font-weight: 800; letter-spacing: -0.02em; }
+.day__target { font-size: 18px; color: var(--text-sub); }
+.day__rate {
+  margin-left: auto;
+  font-style: normal;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--green-text);
+}
+.bar--lg { height: 12px; }
+.day__detail {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  margin-top: 36px;
+}
+.day__nutrients {
+  display: grid;
+  margin: 0;
+  align-content: start;
+}
+/* 영양소 한 줄: 이름은 왼쪽, 양은 오른쪽, 줄 사이는 여백 + 얇은 구분선 */
+.day__nutrients div {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 12px;
+  padding: 13px 4px;
+  border-bottom: 1px solid var(--divider);
 }
-.day-summary__count { color: var(--text-sub); font-size: 15px; }
-.day-summary__kcal { margin: 0 0 10px; font-size: 18px; color: #55595d; }
-.day-summary__kcal strong { font-size: 30px; font-weight: 800; color: var(--text); }
-.day-summary__kcal em {
-  margin-left: 8px;
-  padding: 3px 10px;
-  border-radius: var(--radius-pill);
-  background: #e8f4ea;
-  color: var(--green-text);
-  font-style: normal;
-  font-size: 15px;
-  font-weight: 700;
-}
-.bar--lg { height: 14px; }
-.day-summary__grid {
-  display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: 28px;
-  margin-top: 26px;
-  align-items: start;
-}
-.day-summary .nutrients { grid-template-columns: repeat(3, 1fr); }
+.day__nutrients div:first-child { padding-top: 2px; }
+.day__nutrients div:last-child { border-bottom: 0; }
+.day__nutrients dt { color: var(--text-sub); }
+.day__nutrients dd { margin: 0; text-align: right; font-weight: 700; }
+/* 탄단지 막대도 줄 간격을 넓혀 오른쪽 목록과 높이를 맞춘다 */
+.day .macro { align-content: start; gap: 24px; padding-top: 6px; }
+.day .macro__range { margin-top: 16px; }
 
-/* 필터 */
-.filter {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 18px;
-}
-.filter__date { flex: 0 0 200px; }
-.filter__date .input { height: 50px; }
-.choice-list--compact { flex: 1; min-width: 280px; }
-.choice-list--compact .choice { min-width: 56px; }
-
-/* 목록 */
+/* 식사 목록 */
+.meals { margin-top: 44px; padding-top: 28px; border-top: 1px solid var(--divider); }
+.meals__title { margin: 0 0 8px; font-size: 19px; font-weight: 700; }
+.meals__title span { color: var(--green-text); }
 .meal-list { margin: 0; padding: 0; list-style: none; }
-.meal-list li + li { border-top: 1px solid #f0efe9; }
+.meal-list li + li { border-top: 1px solid var(--divider); }
 .meal-item {
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 16px 8px;
-  border-radius: 14px;
+  margin: 0 -10px;
+  padding: 16px 10px;
+  border-radius: 16px;
   transition: background 0.15s;
 }
-.meal-item:hover { background: #f7f7f3; }
+.meal-item:hover { background: var(--surface); }
 .meal-item__type {
   flex: none;
-  display: grid;
-  place-items: center;
-  width: 56px;
-  height: 56px;
-  border-radius: 16px;
-  background: #f1f5ef;
+  width: 52px;
+  font-weight: 600;
   color: var(--green-text);
-  font-weight: 800;
 }
 .meal-item__body { flex: 1; min-width: 0; }
 .meal-item__foods {
   margin: 0;
   overflow: hidden;
   font-size: 17px;
-  font-weight: 700;
+  font-weight: 600;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 .meal-item__meta { margin: 4px 0 0; color: var(--text-sub); font-size: 14px; }
 
-@media (max-width: 760px) {
-  .day-summary__grid { grid-template-columns: 1fr; }
-  .filter__date { flex: 1 1 100%; }
-  .choice-list--compact { min-width: 0; }
+@media (max-width: 640px) {
+  .day__detail { grid-template-columns: 1fr; gap: 24px; }
+  .day__kcal strong { font-size: 36px; }
 }

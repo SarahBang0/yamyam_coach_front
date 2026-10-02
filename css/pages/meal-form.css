@@ -31,10 +31,10 @@
   align-items: center;
   gap: 12px;
   padding: 12px 6px;
-  border-bottom: 1px solid #f0efe9;
+  border-bottom: 1px solid var(--divider);
 }
 .food-result__info { flex: 1; min-width: 0; }
-.food-result__name { margin: 0; font-weight: 700; }
+.food-result__name { margin: 0; font-weight: 600; }
 .food-result__meta { margin: 2px 0 0; font-size: 14px; color: var(--text-sub); }
 .food-result__add {
   flex: none;
@@ -42,21 +42,22 @@
   height: 38px;
   border: 0;
   border-radius: 50%;
-  background: #e8f4ea;
+  background: var(--green-soft);
   color: var(--green-text);
   font-size: 22px;
-  font-weight: 700;
+  font-weight: 400;
   line-height: 1;
   transition: background 0.15s, transform 0.1s;
 }
-.food-result__add:hover { background: #d5ecd9; }
+.food-result__add:hover { background: var(--green-soft-strong); }
 .food-result__add:active { transform: scale(0.92); }
 
 .custom-food {
   margin-top: 14px;
   padding: 18px;
   border-radius: 16px;
-  background: #f6f6f2;
+  background: #fff;
+  --control: var(--surface); /* 흰 패널 안의 입력칸은 회색 */
 }
 .custom-food__title { margin: 0 0 14px; font-size: 14px; color: var(--text-sub); }
 .custom-food__name { grid-column: 1 / -1; }
@@ -73,10 +74,10 @@
   gap: 10px;
   padding: 10px 12px;
   border-radius: 12px;
-  background: #f6f6f2;
+  background: #fff;
 }
 .selected-food + .selected-food { margin-top: 8px; }
-.selected-food__name { flex: 1; font-weight: 700; }
+.selected-food__name { flex: 1; font-weight: 600; }
 .selected-food__kcal { color: var(--text-sub); font-size: 14px; }
 .selected-food__remove {
   width: 28px;
@@ -84,16 +85,16 @@
   border: 0;
   border-radius: 50%;
   background: transparent;
-  color: #8a8e92;
+  color: var(--text-muted);
   font-size: 20px;
   line-height: 1;
 }
-.selected-food__remove:hover { background: #ecece6; color: var(--error); }
+.selected-food__remove:hover { background: var(--surface-strong); color: var(--error); }
 .selected-empty {
   margin: 0;
   padding: 18px;
-  border: 1.5px dashed var(--line);
   border-radius: 12px;
+  background: rgba(255, 255, 255, 0.6);
   text-align: center;
   color: var(--text-sub);
   font-size: 15px;
@@ -101,9 +102,9 @@
 .my-meal__total {
   margin: 20px 0 0;
   padding-top: 16px;
-  border-top: 1px solid #f0efe9;
+  border-top: 1px solid var(--divider);
   text-align: right;
-  color: #55595d;
+  color: var(--text-2);
 }
 .my-meal__total strong { font-size: 26px; font-weight: 800; color: var(--text); }
 

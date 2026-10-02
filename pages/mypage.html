@@ -114,26 +114,28 @@
       </div>
     </form>
 
-    <!-- 회원 탈퇴 -->
-    <form id="withdraw-form" class="card withdraw" novalidate>
-      <h2 class="card-title">회원 탈퇴</h2>
-      <p class="withdraw__desc">탈퇴하면 같은 아이디로 다시 가입할 수 없어요. 본인 확인을 위해 비밀번호를 입력하세요.</p>
-      <div class="withdraw__row">
-        <div class="withdraw__input">
-          <div class="field field--sm">
-            <label class="sr-only" for="w-password">비밀번호</label>
-            <input id="w-password" name="password" type="password" placeholder="비밀번호" autocomplete="current-password">
-            <button class="toggle-password" type="button" data-action="toggle-password" aria-label="비밀번호 보기">
-              <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>
-              <svg class="icon-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg>
-            </button>
+    <!-- 회원 탈퇴: 권장하는 기능이 아니므로 맨 아래 작은 글씨로만 두고, 눌러야 펼쳐진다 -->
+    <details class="withdraw">
+      <summary>회원 탈퇴</summary>
+      <form id="withdraw-form" class="withdraw__form" novalidate>
+        <p class="withdraw__desc">탈퇴하면 같은 아이디로 다시 가입할 수 없어요. 본인 확인을 위해 비밀번호를 입력하세요.</p>
+        <div class="withdraw__row">
+          <div class="withdraw__input">
+            <div class="field field--sm">
+              <label class="sr-only" for="w-password">비밀번호</label>
+              <input id="w-password" name="password" type="password" placeholder="비밀번호" autocomplete="current-password">
+              <button class="toggle-password" type="button" data-action="toggle-password" aria-label="비밀번호 보기">
+                <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg class="icon-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/></svg>
+              </button>
+            </div>
+            <p class="error" data-error="password"></p>
+            <p class="error" data-error="form"></p>
           </div>
-          <p class="error" data-error="password"></p>
-          <p class="error" data-error="form"></p>
+          <button class="withdraw__btn" type="submit">탈퇴하기</button>
         </div>
-        <button class="btn-secondary btn-secondary--danger" type="submit">탈퇴하기</button>
-      </div>
-    </form>
+      </form>
+    </details>
   </main>
 
   <script type="module" src="../js/pages/mypage.js"></script>

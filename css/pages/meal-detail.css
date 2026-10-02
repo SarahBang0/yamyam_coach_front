@@ -9,8 +9,18 @@
   gap: 20px;
 }
 .grade--xl { width: 84px; height: 84px; font-size: 44px; }
-.score-card__score { margin: 0; font-size: 18px; color: #55595d; }
-.score-card__score strong { font-size: 44px; font-weight: 800; color: var(--text); letter-spacing: -0.02em; }
+.score-card__score {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--text-2);
+}
+.score-card__score strong { font-size: 46px; font-weight: 800; color: var(--text); letter-spacing: -0.01em; }
+.score-card__kcal { margin-top: 10px !important; }
 .score-card__kcal { margin: 4px 0 0; color: var(--text-sub); }
 .score-card__kcal b { color: var(--text); }
 
@@ -25,8 +35,8 @@
   position: relative;
   padding: 14px 16px 14px 44px;
   border-radius: 14px;
-  background: #f3f8f2;
-  font-weight: 600;
+  background: var(--green-soft);
+  font-weight: 400;
   line-height: 1.5;
 }
 .advice li::before {
@@ -39,22 +49,27 @@
 .table-wrap { overflow-x: auto; }
 .food-table {
   width: 100%;
-  min-width: 560px;
+  min-width: 600px;
   border-collapse: collapse;
+  table-layout: fixed;
   font-size: 15px;
+  font-variant-numeric: tabular-nums;
 }
+.food-table col.food-table__name { width: 28%; }
 .food-table th,
 .food-table td {
-  padding: 12px 10px;
-  border-bottom: 1px solid #f0efe9;
+  padding: 13px 12px;
+  border-bottom: 1px solid var(--divider);
   text-align: right;
   white-space: nowrap;
+  vertical-align: middle;
 }
-.food-table th:first-child { text-align: left; }
-.food-table thead th { color: var(--text-sub); font-size: 13px; font-weight: 700; }
-.food-table thead small { margin-left: 2px; font-weight: 500; }
-.food-table tbody th { font-weight: 700; }
+.food-table th:first-child { padding-left: 4px; text-align: left; overflow: hidden; text-overflow: ellipsis; }
+.food-table thead th { padding-bottom: 10px; color: var(--text-sub); font-size: 13px; font-weight: 500; line-height: 1.3; }
+/* 단위는 제목 아래 줄에 (제목 길이와 상관없이 오른쪽 끝이 숫자와 맞도록) */
+.food-table thead small { display: block; font-size: 12px; font-weight: 500; color: var(--text-muted); }
+.food-table tbody th { font-weight: 500; }
 .food-table tfoot th,
-.food-table tfoot td { border-bottom: 0; font-weight: 800; background: #f7f7f3; }
-.food-table tfoot th { border-radius: 10px 0 0 10px; }
-.food-table tfoot td:last-child { border-radius: 0 10px 10px 0; }
+.food-table tfoot td { border-bottom: 0; font-weight: 700; background: var(--control); }
+.food-table tfoot th { border-radius: 12px 0 0 12px; }
+.food-table tfoot td:last-child { border-radius: 0 12px 12px 0; }

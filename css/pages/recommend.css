@@ -1,63 +1,45 @@
-/* 추천식단 */
+/* 추천식단: 박스 없이 구분선으로 나눈 목록 */
 
-.rec-head { align-items: center; }
-.rec-remain {
-  display: grid;
-  justify-items: end;
-  padding: 14px 20px;
-  border-radius: 18px;
-  background: #e8f4ea;
-  color: var(--green-text);
-}
-.rec-remain span { font-size: 14px; font-weight: 600; }
-.rec-remain strong { font-size: 26px; font-weight: 800; }
+.rec-head { align-items: flex-end; }
+.rec-remain { display: grid; justify-items: end; gap: 2px; color: var(--green-text); }
+.rec-remain__label { font-size: 14px; font-weight: 300; color: var(--text-sub); }
+.rec-remain__value { font-size: 30px; font-weight: 800; line-height: 1.1; }
+.rec-remain__value small { margin-left: 4px; font-size: 15px; font-weight: 400; }
 
-.rec-filter { max-width: 520px; }
+.rec-filter,
+.rec-list { --control: var(--control-muted); --control-hover: var(--surface-strong); }
+.rec-filter { max-width: 520px; margin-bottom: 12px; }
 
-.rec-list {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.rec-list .card + .card { margin-top: 0; }
-
-.rec-card {
+.rec-list { margin: 0; padding: 0; list-style: none; }
+.rec-item {
   display: flex;
-  flex-direction: column;
-  gap: 18px;
+  align-items: center;
+  gap: 20px;
+  padding: 22px 4px;
+  border-bottom: 1px solid var(--surface-strong);
 }
-.rec-card:first-child { border-color: #bfe3c6; box-shadow: 0 16px 36px -16px rgba(44, 154, 63, 0.35); }
-.rec-card__head { display: flex; align-items: center; gap: 10px; }
-.rec-card__rank {
-  padding: 5px 12px;
-  border-radius: var(--radius-pill);
-  background: var(--text);
-  color: #fff;
-  font-size: 13px;
-  font-weight: 800;
+.rec-item__rank {
+  flex: none;
+  width: 32px;
+  font-family: var(--font-logo);
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--text-muted);
 }
-.rec-card:first-child .rec-card__rank { background: var(--green-deep); }
-.rec-card__score { flex: 1; color: var(--text-sub); }
-.rec-card__score strong { font-size: 26px; font-weight: 800; color: var(--text); }
+.rec-item:first-child .rec-item__rank { color: var(--green-deep); }
+.rec-item__body { flex: 1; min-width: 0; }
+.rec-item__foods { margin: 0; font-size: 18px; font-weight: 700; line-height: 1.45; }
+.rec-item__meta { margin: 4px 0 0; color: var(--text-sub); font-size: 15px; }
+.rec-item__meta b { color: var(--text); }
+.rec-item__reason { color: var(--green-text); font-weight: 400; }
+.rec-item__reason:not(:empty)::before { content: '·'; margin: 0 8px; color: var(--text-muted); }
+.rec-item .grade { flex: none; width: 36px; height: 36px; font-size: 18px; }
+.rec-item__btn { flex: none; height: 44px; padding: 0 18px; font-size: 15px; }
+.rec-item__btn:hover { border-color: var(--green-deep); background: var(--green-deep); color: #fff; }
 
-.rec-card__foods li { background: #f6f6f2; font-size: 15px; }
-.rec-card__stats {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 6px;
-  margin: 0;
-}
-.rec-card__stats div { min-width: 0; padding: 10px; border-radius: 12px; background: #f9f9f6; }
-.rec-card__stats dt { font-size: 13px; color: var(--text-sub); }
-.rec-card__stats dd { margin: 2px 0 0; font-size: 17px; font-weight: 800; }
-.rec-card__stats small { font-size: 12px; }
-.rec-card__tags { min-height: 32px; }
-.rec-card__btn { margin-top: auto; height: 54px; font-size: 17px; }
-
-@media (max-width: 900px) {
-  .rec-list { grid-template-columns: 1fr; }
+@media (max-width: 640px) {
+  .rec-item { flex-wrap: wrap; gap: 12px 14px; }
+  .rec-item__body { flex-basis: calc(100% - 100px); }
+  .rec-item__btn { width: 100%; }
   .rec-remain { justify-items: start; }
 }

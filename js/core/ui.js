@@ -4,6 +4,7 @@
 
 import { getCurrentUser, logout } from './auth.js';
 import { homeUrl, formatNumber } from './utils.js';
+import { setupDatePickers, refreshDatePicker } from './datepicker.js';
 
 // querySelector 줄임말 (root가 없으면 null)
 export function $(selector, root = document) {
@@ -29,6 +30,7 @@ export function initLayout() {
   clearErrorOnInput();
   setupExclusiveCheckboxes();
   setupPageTransitions();
+  setupDatePickers();
   return user;
 }
 
@@ -178,7 +180,10 @@ export function fillForm(form, data) {
       return;
     }
     const field = form.elements.namedItem(name);
-    if (field) field.value = value ?? '';
+    if (!field) return;
+    field.value = value ?? '';
+    const picker = field.closest?.('[data-datepicker]'); // YamYam 달력이면 보이는 글자도 갱신
+    if (picker) refreshDatePicker(picker);
   });
 }
 

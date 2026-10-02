@@ -32,8 +32,8 @@ function renderMeal(meal, user) {
     targetKcal: analysis.targetKcal,
     kcalRate: analysis.kcalRate,
   });
-  fillFields($('#food-total'), analysis.total);
-  renderList($('#food-rows'), $('#food-row'), meal.foods);
+  fillFields($('#food-total'), toTableRow(analysis.total));
+  renderList($('#food-rows'), $('#food-row'), meal.foods, { toFields: toTableRow });
 
   ['carb', 'protein', 'fat'].forEach((key) => {
     const el = $(`#macro-${key}`);
@@ -60,4 +60,13 @@ function renderMeal(meal, user) {
     }
     go(pageUrl('meal-list.html'));
   });
+}
+
+// 표에 넣을 값: 영양 숫자를 모두 소수 한 자리로 맞춘다 (395.6 / 0.0 처럼 소수점 자리가 세로로 맞도록)
+function toTableRow(food) {
+  const row = { ...food };
+  ['calorie', 'carbohydrate', 'protein', 'fat', 'sodium', 'sugar'].forEach((key) => {
+    row[key] = Number(food[key] ?? 0).toLocaleString('ko-KR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  });
+  return row;
 }

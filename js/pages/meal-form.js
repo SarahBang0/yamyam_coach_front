@@ -71,7 +71,7 @@ function addFood(food) {
   renderSelected();
 }
 
-// 음식 검색: 입력을 멈추면 0.3초 뒤 검색, 처음에는 전체 목록
+// 음식 검색: 입력을 멈추면 0.3초 뒤 검색
 function setupSearch() {
   const input = $('#food-search');
   const search = () => renderResults(input?.value ?? '');
@@ -86,7 +86,9 @@ function setupSearch() {
   search();
 }
 
+// 검색어가 없으면 결과도 '없음' 문구도 보여주지 않는다 (음식이 1만 개가 넘어서 전체 목록은 의미 없음)
 function renderResults(keyword) {
+  const empty = $('#food-results-empty');
   renderList($('#food-results'), $('#food-result-item'), searchFoods(keyword), {
     empty: $('#food-results-empty'),
     onRow: (row, item) => {
@@ -96,6 +98,7 @@ function renderResults(keyword) {
       });
     },
   });
+  if (empty && !keyword.trim()) empty.hidden = true;
 }
 
 // 음식 직접 입력: 열기 버튼으로 폼을 열고 닫는다. 저장하면 바로 담는다

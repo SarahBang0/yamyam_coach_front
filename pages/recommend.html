@@ -29,13 +29,11 @@
     <div class="page-head rec-head">
       <div>
         <h1 class="page-title">추천식단</h1>
-        <p class="page-sub">
-          <b data-field="name"></b>님의 몸무게와 질환(<b data-field="diseaseInfo"></b>)에 맞춰 점수가 높은 조합을 골랐어요.
-        </p>
+        <p class="page-sub">몸무게와 질환(<b data-field="diseaseInfo"></b>)에 맞춰 골랐어요.</p>
       </div>
       <div class="rec-remain">
-        <span>오늘 남은 열량</span>
-        <strong><span data-field="remainKcal">0</span> kcal</strong>
+        <span class="rec-remain__label">오늘 남은 열량</span>
+        <strong class="rec-remain__value"><span data-field="remainKcal">0</span><small>kcal</small></strong>
       </div>
     </div>
 
@@ -48,25 +46,18 @@
       </div>
     </form>
 
-    <h2 class="section-title"><span data-field="mealType"></span> 추천 TOP 3</h2>
     <ul id="recommend-list" class="rec-list"></ul>
   </main>
 
   <template id="recommend-item">
-    <li class="card rec-card">
-      <div class="rec-card__head">
-        <span class="rec-card__rank"><span data-field="rank"></span>위</span>
-        <span class="rec-card__score"><strong data-field="score"></strong>점</span>
-        <span class="grade" data-field="grade"></span>
+    <li class="rec-item">
+      <span class="rec-item__rank" data-field="rank"></span>
+      <div class="rec-item__body">
+        <p class="rec-item__foods" data-field="foodNames"></p>
+        <p class="rec-item__meta"><b data-field="calorie"></b> kcal<span class="rec-item__reason" data-field="reason"></span></p>
       </div>
-      <ul class="chips rec-card__foods" data-list="foods"></ul>
-      <dl class="rec-card__stats">
-        <div><dt>열량 <small>kcal</small></dt><dd data-field="calorie"></dd></div>
-        <div><dt>단백질 <small>g</small></dt><dd data-field="protein"></dd></div>
-        <div><dt>나트륨 <small>mg</small></dt><dd data-field="sodium"></dd></div>
-      </dl>
-      <ul class="chips chips--green rec-card__tags" data-list="highlights"></ul>
-      <button class="btn-primary rec-card__btn" type="button" data-action="record">이 식단으로 기록하기</button>
+      <span class="grade" data-field="grade"></span>
+      <button class="btn-secondary rec-item__btn" type="button" data-action="record">기록하기</button>
     </li>
   </template>
 

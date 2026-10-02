@@ -4,30 +4,50 @@
 import { requireLogin } from '../core/auth.js';
 import { today, pageUrl, getQueryParam } from '../core/utils.js';
 import { $, initLayout, fillFields, fillForm, readForm, renderList, setBar } from '../core/ui.js';
+import { setDateValue } from '../core/datepicker.js';
 import { getMeals } from '../services/mealService.js';
 import { analyzeMeal, analyzeDay } from '../services/analysisService.js';
 
 if (requireLogin()) {
   const user = initLayout();
   const filter = $('#meal-filter');
+  const picker = $('[data-datepicker]', filter);
   const render = () => {
-    const values = readForm(filter);
-    renderMeals(user, values);
-    renderDaySummary(user, values.date || today());
+    const date = readForm(filter).date || today();
+    renderMeals(user, { date });
+    renderDaySummary(user, date);
+    // 오늘보다 뒤로는 갈 수 없다
+    const next = $('#date-next');
+    if (next) next.disabled = date >= today();
   };
 
-  fillForm(filter, { date: getQueryParam('date') ?? '' });
+  // 기록이 있는 날에 달력 점 표시
+  if (picker) picker.markedDates = new Set(getMeals().map((meal) => meal.date));
+  fillForm(filter, { date: getQueryParam('date') ?? today() });
+
   filter?.addEventListener('change', render);
   filter?.addEventListener('submit', (event) => {
     event.preventDefault();
     render();
   });
+  $('#date-prev')?.addEventListener('click', () => moveDate(picker, -1));
+  $('#date-next')?.addEventListener('click', () => moveDate(picker, 1));
   render();
+}
+
+// 하루 앞·뒤로 이동
+function moveDate(picker, days) {
+  if (!picker) return;
+  const [y, m, d] = picker.querySelector('input').value.split('-').map(Number);
+  const date = new Date(y, m - 1, d + days);
+  const value = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+  if (value <= today()) setDateValue(picker, value);
 }
 
 // filter: { date, mealType } (빈 값이면 전체)
 function renderMeals(user, filter) {
-  renderList($('#meal-list'), $('#meal-item'), getMeals(filter), {
+  // 하루 화면이므로 아침 → 간식 순서로 (getMeals는 같은 날이면 간식부터)
+  renderList($('#meal-list'), $('#meal-item'), getMeals(filter).reverse(), {
     empty: $('#meal-empty'),
     toFields: (meal) => {
       const analysis = analyzeMeal(meal, user);
@@ -44,16 +64,15 @@ function renderMeals(user, filter) {
   });
 }
 
-// 하루 영양 요약 (#day-summary): 날짜 필터가 있으면 그날, 없으면 오늘
+// 하루 영양 요약 (#day-summary)
 function renderDaySummary(user, date) {
   const box = $('#day-summary');
   if (!box) return;
   const meals = getMeals({ date });
   const day = analyzeDay(meals, user);
 
+  fillFields(document, { mealCount: meals.length });
   fillFields(box, {
-    summaryDate: date === today() ? '오늘' : date,
-    mealCount: meals.length,
     targetKcal: day.targetKcal,
     kcalRate: day.kcalRate,
     ...day.total,

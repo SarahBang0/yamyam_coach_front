@@ -1,17 +1,23 @@
 /* 회원가입 (login.css의 .auth 틀 위에 덧붙임) */
 
 /* 폼이 길어서 오른쪽만 스크롤되고, 왼쪽 접시는 화면에 고정 */
-.auth--signup { align-items: start; overflow: visible; }
+.auth--signup { align-items: center; overflow: visible; }
 .auth--signup .auth__visual {
+  align-self: start;
   position: sticky;
   top: 0;
   height: 100vh;
   min-height: 0;
   overflow: hidden;
 }
-.auth--signup .auth__panel { padding: 72px 0 64px; }
-.auth--signup .auth__title { margin-bottom: 36px; }
-.auth--signup .auth__form { gap: 14px; }
+.auth--signup .auth__panel { padding: 32px 0; }
+.auth--signup .auth__logo { font-size: 38px; }
+.auth--signup .auth__title { margin: 20px 0 28px; font-size: 42px; }
+.auth--signup .auth__form { gap: 10px; margin-bottom: 24px; }
+.auth--signup .field { height: 54px; }
+.auth--signup .choice span { height: 46px; }
+.auth--signup .auth__form .btn-primary { height: 58px; font-size: 19px; }
+.auth--signup .error:empty { display: none; }
 
 /* 입력칸 안 오른쪽 작은 버튼 (중복 확인) */
 .field__action {
@@ -20,12 +26,12 @@
   padding: 0 14px;
   border: 0;
   border-radius: var(--radius-pill);
-  background: #ecf3ee;
+  background: var(--green-soft);
   color: var(--green-text);
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 500;
 }
-.field__action:hover { background: #dfece3; }
+.field__action:hover { background: var(--green-soft-strong); }
 
 /* 입력칸 안 단위 (cm, kg) */
 .field__unit { flex: none; color: var(--text-sub); font-size: 16px; }
@@ -36,7 +42,7 @@
 /* 키·몸무게 나란히 */
 .field-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* 숫자 칸의 기본 최소 폭 때문에 폼 밖으로 밀리지 않게 */
   gap: 12px;
 }
 
@@ -50,10 +56,10 @@
   margin-bottom: 10px;
   padding: 0 4px;
   font-size: 16px;
-  font-weight: 700;
-  color: #3a3d40;
+  font-weight: 500;
+  color: var(--text-2);
 }
-.choice-group__multi { margin-left: 6px; font-size: 13px; font-weight: 500; color: var(--text-sub); }
+.choice-group__multi { margin-left: 6px; font-size: 13px; font-weight: 300; color: var(--text-sub); }
 .choice-group__hint { margin: 10px 4px 0; font-size: 14px; color: var(--text-sub); }
 
 @media (max-width: 860px) {

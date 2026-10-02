@@ -12,33 +12,63 @@
   width: 68px;
   height: 68px;
   border-radius: 50%;
-  background: #ebebea;
-  color: #3a3d40;
+  background: #fff;
+  color: var(--text-2);
 }
 .profile__avatar svg { width: 34px; height: 34px; }
-.profile__name { margin: 0; font-size: 24px; font-weight: 800; }
+.profile__name { margin: 0; font-size: 24px; font-weight: 700; }
 .profile__id { margin: 2px 0 0; color: var(--text-sub); }
 .profile__disease {
   margin-left: auto;
   padding: 6px 14px;
   border-radius: var(--radius-pill);
-  background: #e8f4ea;
+  background: var(--green-soft);
   color: var(--green-text);
-  font-weight: 700;
+  font-weight: 500;
 }
 .profile__stats { grid-template-columns: repeat(4, 1fr); }
 .profile__stats dd small[data-field='bmiLabel'] { margin-left: 6px; color: var(--green-text); }
 
 .form-optional { margin-left: 6px; font-weight: 500; color: var(--text-sub); }
 
-.withdraw { border-color: #f4dede; }
-.withdraw .card-title { color: var(--error); }
-.withdraw__desc { margin: -6px 0 16px; color: var(--text-sub); }
-.withdraw__row { display: flex; align-items: flex-start; gap: 10px; }
+/* 회원 탈퇴: 맨 아래 작은 회색 글씨, 누르면 펼쳐짐 */
+.withdraw { margin-top: 14px; text-align: center; }
+.withdraw summary {
+  display: inline-block;
+  padding: 4px 8px;
+  list-style: none;
+  font-size: 13px;
+  color: var(--text-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.withdraw summary::-webkit-details-marker { display: none; }
+.withdraw summary:hover { color: var(--text-sub); }
+.withdraw__form {
+  max-width: 440px;
+  margin: 12px auto 0;
+  padding: 18px;
+  border-radius: 16px;
+  background: var(--surface);
+  text-align: left;
+}
+.withdraw__desc { margin: 0 0 12px; font-size: 13px; color: var(--text-sub); }
+.withdraw__row { display: flex; align-items: flex-start; gap: 8px; }
 .withdraw__input { flex: 1; }
-.withdraw__row .btn-secondary { height: 52px; }
+.withdraw__btn {
+  flex: none;
+  height: 52px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--error);
+}
+.withdraw__btn:hover { background: var(--danger-soft); }
 
 @media (max-width: 640px) {
   .profile__stats { grid-template-columns: repeat(2, 1fr); }
-  .withdraw__row { flex-direction: column; align-items: stretch; }
 }

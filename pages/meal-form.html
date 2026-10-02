@@ -73,8 +73,14 @@
       <form id="meal-form" class="card my-meal" novalidate>
         <h2 class="card-title">내 식단</h2>
         <div class="form-row">
-          <label class="form-label" for="meal-date">날짜</label>
-          <input class="input" id="meal-date" type="date" name="date">
+          <span class="form-label">날짜</span>
+          <div class="datepicker" data-datepicker>
+            <input type="hidden" name="date">
+            <button type="button" class="datepicker__trigger">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
+              <span data-datepicker-label></span>
+            </button>
+          </div>
           <p class="error" data-error="date"></p>
         </div>
         <div class="form-row">

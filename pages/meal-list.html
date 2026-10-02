@@ -25,28 +25,34 @@
     </nav>
   </header>
 
-  <main class="page">
+  <main class="page page--narrow">
     <div class="page-head">
-      <div>
-        <h1 class="page-title">식단 기록</h1>
-        <p class="page-sub">끼니마다 먹은 음식을 기록하고 영양을 확인하세요.</p>
-      </div>
-      <a class="btn-primary btn-primary--inline" href="meal-form.html">+ 식단 등록</a>
+      <h1 class="page-title">식단 기록</h1>
     </div>
 
-    <!-- 하루 영양 요약: 날짜를 고르면 그날, 아니면 오늘 -->
-    <section class="card day-summary" id="day-summary">
-      <div class="day-summary__head">
-        <h2 class="card-title"><span data-field="summaryDate">오늘</span>의 영양</h2>
-        <span class="day-summary__count">식단 <b data-field="mealCount">0</b>개</span>
+    <!-- 날짜 이동: ‹ 날짜 › (가운데는 YamYam 달력) -->
+    <form id="meal-filter" class="date-bar">
+      <button class="date-bar__step" type="button" id="date-prev" aria-label="전날">‹</button>
+      <div class="datepicker" data-datepicker>
+        <input type="hidden" name="date">
+        <button type="button" class="datepicker__trigger">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
+          <span data-datepicker-label></span>
+        </button>
       </div>
-      <p class="day-summary__kcal">
-        <strong data-field="calorie">0</strong> / <span data-field="targetKcal">0</span> kcal
-        <em><span data-field="kcalRate">0</span>%</em>
+      <button class="date-bar__step" type="button" id="date-next" aria-label="다음 날">›</button>
+    </form>
+
+    <!-- 그날 영양 요약 -->
+    <section class="day" id="day-summary">
+      <p class="day__kcal">
+        <strong data-field="calorie">0</strong>
+        <span class="day__target">/ <span data-field="targetKcal">0</span> kcal</span>
+        <em class="day__rate"><span data-field="kcalRate">0</span>%</em>
       </p>
       <div class="bar bar--lg" id="day-kcal"><div class="bar-fill"></div></div>
 
-      <div class="day-summary__grid">
+      <div class="day__detail">
         <div class="macro">
           <div class="macro__row" id="day-macro-carb">
             <span class="macro__name">탄수화물</span>
@@ -63,38 +69,31 @@
             <div class="bar"><div class="bar-fill"></div></div>
             <span class="macro__value"><span data-field="value">0</span>%</span>
           </div>
-          <p class="macro__range">권장: 탄수화물 55~65% · 단백질 7~20% · 지방 15~30%</p>
         </div>
-        <dl class="nutrients">
-          <div><dt>탄수화물</dt><dd><span data-field="carbohydrate">0</span><small>g</small></dd></div>
-          <div><dt>단백질</dt><dd><span data-field="protein">0</span><small>g</small></dd></div>
-          <div><dt>지방</dt><dd><span data-field="fat">0</span><small>g</small></dd></div>
-          <div><dt>나트륨</dt><dd><span data-field="sodium">0</span><small>mg</small></dd></div>
-          <div><dt>당류</dt><dd><span data-field="sugar">0</span><small>g</small></dd></div>
+        <dl class="day__nutrients">
+          <div><dt>탄수화물</dt><dd><span data-field="carbohydrate">0</span>g</dd></div>
+          <div><dt>단백질</dt><dd><span data-field="protein">0</span>g</dd></div>
+          <div><dt>지방</dt><dd><span data-field="fat">0</span>g</dd></div>
+          <div><dt>나트륨</dt><dd><span data-field="sodium">0</span>mg</dd></div>
+          <div><dt>당류</dt><dd><span data-field="sugar">0</span>g</dd></div>
         </dl>
       </div>
+      <p class="macro__range">권장 비율: 탄수화물 55~65% · 단백질 7~20% · 지방 15~30%</p>
     </section>
 
-    <!-- 식단 목록 -->
-    <section class="card">
-      <form id="meal-filter" class="filter">
-        <label class="filter__date">
-          <span class="sr-only">날짜</span>
-          <input class="input" type="date" name="date">
-        </label>
-        <div class="choice-list choice-list--compact">
-          <label class="choice"><input type="radio" name="mealType" value="" checked><span>전체</span></label>
-          <label class="choice"><input type="radio" name="mealType" value="아침"><span>아침</span></label>
-          <label class="choice"><input type="radio" name="mealType" value="점심"><span>점심</span></label>
-          <label class="choice"><input type="radio" name="mealType" value="저녁"><span>저녁</span></label>
-          <label class="choice"><input type="radio" name="mealType" value="간식"><span>간식</span></label>
-        </div>
-      </form>
-
+    <!-- 그날 먹은 식사 -->
+    <section class="meals">
+      <h2 class="meals__title">식사 <span data-field="mealCount">0</span></h2>
       <ul id="meal-list" class="meal-list"></ul>
-      <p id="meal-empty" class="empty-state" hidden>기록된 식단이 없어요. 오른쪽 위 <b>식단 등록</b>으로 시작해 보세요.</p>
+      <p id="meal-empty" class="empty-state" hidden>이날 기록한 식사가 없어요.</p>
     </section>
   </main>
+
+  <!-- 식단 등록: 오른쪽 아래 떠 있는 + 버튼 (애니메이션이 걸리는 main 밖에 둔다) -->
+  <a class="fab" href="meal-form.html" aria-label="식단 등록하기">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+    <span class="fab__label" aria-hidden="true">식단 등록</span>
+  </a>
 
   <template id="meal-item">
     <li>
@@ -102,7 +101,7 @@
         <span class="meal-item__type" data-field="mealType"></span>
         <div class="meal-item__body">
           <p class="meal-item__foods" data-field="foodNames"></p>
-          <p class="meal-item__meta"><span data-field="date"></span> · <span data-field="calorie"></span> kcal · <span data-field="score"></span>점</p>
+          <p class="meal-item__meta"><span data-field="calorie"></span> kcal · <span data-field="score"></span>점</p>
         </div>
         <span class="grade" data-field="grade"></span>
       </a>

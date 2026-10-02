@@ -4,17 +4,40 @@
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
 
 :root {
+  /* ───── 색 팔레트 (밝고 선명하게, 단계가 확실히 구분되도록) ───── */
+  --bg: #fcfcf9;              /* 페이지 배경 */
+  --surface: #f0f5ee;         /* 카드·영역 배경 (연한 세이지) */
+  --surface-strong: #e2ecde;  /* 호버, 막대 바탕 */
+  --control: #ffffff;         /* 카드 안 입력칸·선택 버튼 */
+  --control-hover: #e7f1e4;
+  --control-muted: #eef3eb;   /* 페이지 배경 위에 바로 놓인 입력칸·버튼 */
+  --divider: #e4ebe1;         /* 구분선 */
+  --line: #d9e3d5;
+
+  --text: #1b221d;
+  --text-2: #3c463f;          /* 메뉴, 라벨 */
+  --text-sub: #69746b;        /* 설명 글 */
+  --text-muted: #a3ada4;      /* 흐린 글, 비활성 */
+
+  --green: #22b04a;           /* 강조 숫자, 막대 */
+  --green-deep: #23954a;      /* 큰 버튼, 선택된 칩 */
+  --green-text: #1b8a3c;      /* 초록 글자 링크 */
+  --green-soft: #e1f5e5;      /* 연한 초록 배경 */
+  --green-soft-strong: #cdeed5;
+  --word-green: hsla(141, 30%, 50%, 0.28); /* 메인 접시 뒤 큰 YamYam 글자: 주색과 같은 색상, 채도·명도를 낮춘 반투명 */
+
+  --error: #e5484d;
+  --danger-soft: #fdf0ef;
+  --danger-soft-strong: #fbe0de;
+
+  --focus-ring: 0 0 0 2px rgba(34, 176, 74, 0.45);
+  /* 입력칸: 흰 바탕 + 안쪽 그림자 (살짝 파인 느낌) */
+  --field-bg: #ffffff;
+  --field-shade: inset 0 2px 4px rgba(27, 34, 29, 0.07), inset 0 0 0 1px rgba(27, 34, 29, 0.06);
   /* 접시 그림자: 기본(아래로) / 왼쪽으로 90도 돌린 접시용(돌린 뒤에도 화면 아래로 떨어지게) */
-  --plate-shadow: drop-shadow(0px 18px 22px rgba(90, 70, 40, 0.2)) drop-shadow(0px 3px 5px rgba(90, 70, 40, 0.14));
-  --plate-shadow-rotated: drop-shadow(-18px 0px 22px rgba(90, 70, 40, 0.2)) drop-shadow(-3px 0px 5px rgba(90, 70, 40, 0.14));
-  --bg: #faf9f5;
-  --text: #1c1c1a;
-  --text-sub: #5f6368;
-  --line: #dcdcd7;
-  --green: #2c9a3f;        /* 게이지, 강조 숫자 */
-  --green-deep: #3e7b50;   /* 큰 버튼 */
-  --green-text: #2a7a37;   /* 초록 글자 링크 */
-  --error: #d14343;
+  --plate-shadow: drop-shadow(0px 18px 22px rgba(90, 70, 40, 0.18)) drop-shadow(0px 3px 5px rgba(90, 70, 40, 0.12));
+  --plate-shadow-rotated: drop-shadow(-18px 0px 22px rgba(90, 70, 40, 0.18)) drop-shadow(-3px 0px 5px rgba(90, 70, 40, 0.12));
+
   --font: 'Pretendard', -apple-system, 'Malgun Gothic', sans-serif;
   --font-logo: 'Fredoka', 'Pretendard', sans-serif;
   --radius-pill: 999px;
@@ -82,8 +105,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
   position: relative;
   padding: 8px 2px;
   font-size: 17px;
-  font-weight: 600;
-  color: #3a3d40;
+  font-weight: 400;
+  color: var(--text-2);
   transition: color 0.2s;
 }
 /* 밑줄: 지금 화면은 항상, 다른 메뉴는 마우스를 올리면 가운데에서 양옆으로 자라난다 */
@@ -115,13 +138,13 @@ button { font: inherit; color: inherit; cursor: pointer; }
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: #ebebea;
+  background: var(--surface);
   cursor: pointer;
 }
 .profile-menu summary::-webkit-details-marker { display: none; }
 .profile-menu summary { transition: background 0.2s, box-shadow 0.2s; }
 .profile-menu summary:hover,
-.profile-menu[open] summary { background: #e1e6e1; box-shadow: 0 0 0 4px rgba(62, 123, 80, 0.12); }
+.profile-menu[open] summary { background: var(--surface-strong); box-shadow: 0 0 0 4px rgba(35, 149, 74, 0.12); }
 .profile-menu summary svg { width: 26px; height: 26px; }
 .profile-menu__panel {
   position: absolute;
@@ -148,7 +171,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   text-align: left;
   font-size: 15px;
 }
-.profile-menu__item:hover { background: #f3f3f1; }
+.profile-menu__item:hover { background: var(--surface); }
 
 /* ───── 버튼 ───── */
 .btn-primary {
@@ -164,19 +187,26 @@ button { font: inherit; color: inherit; cursor: pointer; }
   color: #fff;
   font-size: 20px;
   font-weight: 700;
-  box-shadow: 0 6px 16px rgba(62, 123, 80, 0.25);
+  box-shadow: 0 6px 16px rgba(35, 149, 74, 0.25);
   transition: transform 0.15s, box-shadow 0.15s;
 }
-.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(62, 123, 80, 0.3); }
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(35, 149, 74, 0.3); }
 
-.link-green { color: var(--green-text); font-weight: 700; }
+.link-green { color: var(--green-text); font-weight: 500; }
 
+/* '회원이 아니신가요? 회원가입': 두 글자 덩어리를 한 줄 가운데에, 같은 기준선에 맞춰 놓는다 */
 .helper-text {
-  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 4px 12px;
+  margin: 0;
   color: var(--text-sub);
   font-size: 17px;
+  font-weight: 200; /* Pretendard ExtraLight */
 }
-.helper-text .link-green { margin-left: 14px; }
+.helper-text .link-green { font-weight: 500; }
 
 /* ───── 입력칸 (아이콘 + 입력 + 버튼) ───── */
 .field {
@@ -185,15 +215,16 @@ button { font: inherit; color: inherit; cursor: pointer; }
   gap: 12px;
   height: 62px;
   padding: 0 20px;
-  border: 1.5px solid var(--line);
-  border-radius: 10px;
-  background: #fff;
-  transition: border-color 0.15s;
+  border-radius: 12px;
+  background: var(--field-bg);
+  box-shadow: var(--field-shade);
+  transition: box-shadow 0.15s;
 }
-.field:focus-within { border-color: var(--green-deep); }
-.field__icon { flex: none; width: 24px; height: 24px; color: #6b6f73; }
+.field:focus-within { box-shadow: var(--field-shade), var(--focus-ring); }
+.field__icon { flex: none; width: 24px; height: 24px; color: var(--text-sub); }
 .field input {
   flex: 1;
+  width: 0; /* 숫자 칸도 남은 폭만큼만 차지하게 */
   min-width: 0;
   height: 100%;
   border: 0;
@@ -202,7 +233,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   font: inherit;
   font-size: 18px;
 }
-.field input::placeholder { color: #8a8e92; }
+.field input::placeholder { color: var(--text-muted); }
 
 /* 비밀번호 보기 버튼: 보이는 중이면 class="is-visible" (JS) */
 .toggle-password {
@@ -214,7 +245,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   border: 0;
   border-radius: 8px;
   background: none;
-  color: #4a4e52;
+  color: var(--text-2);
 }
 .toggle-password svg { width: 26px; height: 26px; }
 .toggle-password .icon-eye-off { display: none; }
@@ -245,14 +276,14 @@ button { font: inherit; color: inherit; cursor: pointer; }
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: calc(var(--plate-size) * 0.6);
+  gap: calc(var(--plate-size) * 0.56);
   margin: 0;
   font-family: var(--font-logo);
   font-weight: 700;
-  font-size: clamp(72px, 17vw, 300px);
+  font-size: calc(var(--plate-size) * 0.5); /* 접시 크기에 비례 (큰 화면에서 같이 커짐) */
   letter-spacing: -0.04em;
   line-height: 1;
-  color: #1f1f1d;
+  color: var(--word-green);
   user-select: none;
   pointer-events: none;
 }
@@ -285,12 +316,12 @@ button { font: inherit; color: inherit; cursor: pointer; }
   width: 80%;
   height: 80%;
 }
-/* 초록 선: .plate-wrap 안, 접시 오른쪽 위 */
+/* 반짝 표시: .plate-wrap 안, 접시 테두리 오른쪽 위에 붙는다 (안쪽 끝이 테두리 바로 바깥) */
 .sparks {
   position: absolute;
-  right: 4%;
-  top: 4%;
-  width: 12%;
+  right: 6%;
+  top: 3%;
+  width: 16%;
   height: auto;
   pointer-events: none;
 }
@@ -308,10 +339,29 @@ button { font: inherit; color: inherit; cursor: pointer; }
   border-radius: 50%;
   background: var(--green-deep);
   color: #fff;
-  box-shadow: 0 12px 28px rgba(46, 110, 64, 0.35);
+  box-shadow: 0 12px 28px rgba(35, 149, 74, 0.35);
   transition: transform 0.15s;
 }
 .fab:hover { transform: scale(1.05); }
+/* 마우스를 올리면 버튼 아래에 이름표가 나타난다 */
+.fab__label {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--text);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(-50%, -4px);
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+}
+.fab:hover .fab__label,
+.fab:focus-visible .fab__label { opacity: 1; transform: translate(-50%, 0); }
 .fab svg { width: 40px; height: 40px; }
 
 /* ───── 앱 화면 공통 (목록·작성·상세·추천·프로필) ───── */
@@ -333,20 +383,18 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .page-title {
   margin: 0;
   font-size: clamp(28px, 3vw, 38px);
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: -0.02em;
 }
 .page-sub { margin: 8px 0 0; color: var(--text-sub); font-size: 16px; }
 
 .card {
   padding: clamp(20px, 3vw, 28px);
-  border: 1px solid #ecebe5;
   border-radius: 22px;
-  background: #fff;
-  box-shadow: 0 10px 30px -12px rgba(60, 50, 30, 0.12);
+  background: var(--surface);
 }
 .card + .card { margin-top: 20px; }
-.card-title { margin: 0 0 16px; font-size: 19px; font-weight: 800; }
+.card-title { margin: 0 0 16px; font-size: 19px; font-weight: 700; }
 
 .btn-secondary {
   display: inline-flex;
@@ -355,17 +403,17 @@ button { font: inherit; color: inherit; cursor: pointer; }
   gap: 6px;
   height: 48px;
   padding: 0 22px;
-  border: 1.5px solid var(--line);
+  border: 0;
   border-radius: var(--radius-pill);
-  background: #fff;
+  background: var(--control);
   font-size: 16px;
-  font-weight: 700;
-  color: #3a3d40;
-  transition: border-color 0.15s, background 0.15s;
+  font-weight: 500;
+  color: var(--text-2);
+  transition: background 0.15s, color 0.15s;
 }
-.btn-secondary:hover { border-color: var(--green-deep); }
+.btn-secondary:hover { background: var(--control-hover); }
 .btn-secondary--danger { color: var(--error); }
-.btn-secondary--danger:hover { border-color: var(--error); background: #fff6f6; }
+.btn-secondary--danger:hover { background: var(--danger-soft-strong); }
 .btn-primary--inline { width: auto; height: 52px; font-size: 17px; }
 
 /* 등급 배지: JS가 data-grade="A"~"D"를 붙인다 */
@@ -375,13 +423,13 @@ button { font: inherit; color: inherit; cursor: pointer; }
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #eef0ee;
+  background: var(--surface);
   font-family: var(--font-logo);
   font-size: 20px;
   font-weight: 700;
   color: #555;
 }
-.grade[data-grade='A'] { background: #e3f4e6; color: #1f7a35; }
+.grade[data-grade='A'] { background: var(--green-soft); color: var(--green-text); }
 .grade[data-grade='B'] { background: #e6f1f6; color: #22638a; }
 .grade[data-grade='C'] { background: #fdf1dc; color: #9a6410; }
 .grade[data-grade='D'] { background: #fde6e4; color: #b23a32; }
@@ -390,14 +438,14 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .bar {
   height: 10px;
   border-radius: 999px;
-  background: #edf0ec;
+  background: var(--surface-strong);
   overflow: hidden;
 }
 .bar-fill {
   width: 0;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, #2c9a3f, #5cc46e);
+  background: linear-gradient(90deg, var(--green), #63d985);
   transition: width 0.6s ease-out;
 }
 
@@ -410,11 +458,11 @@ button { font: inherit; color: inherit; cursor: pointer; }
   gap: 12px;
   font-size: 15px;
 }
-.macro__name { font-weight: 700; }
-.macro__value { text-align: right; font-weight: 700; }
+.macro__name { font-weight: 400; }
+.macro__value { text-align: right; font-weight: 600; }
 .macro__range { margin: 0; font-size: 13px; color: var(--text-sub); }
-.macro__row--protein .bar-fill { background: linear-gradient(90deg, #22638a, #4ea3d1); }
-.macro__row--fat .bar-fill { background: linear-gradient(90deg, #c27a12, #f0b04a); }
+.macro__row--protein .bar-fill { background: linear-gradient(90deg, #2f8fde, #6dbcf2); }
+.macro__row--fat .bar-fill { background: linear-gradient(90deg, #f0a020, #f8c766); }
 
 /* 알약 모양 선택 버튼 (radio) */
 .choice-list { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -431,18 +479,23 @@ button { font: inherit; color: inherit; cursor: pointer; }
   place-items: center;
   height: 50px;
   padding: 0 16px;
-  border: 1.5px solid var(--line);
   border-radius: var(--radius-pill);
-  background: #fff;
+  background: var(--control);
   font-size: 16px;
-  font-weight: 600;
-  color: #4a4e52;
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  font-weight: 400;
+  color: var(--text-2);
+  transition: background 0.15s, color 0.15s;
 }
-.choice input:checked + span { border-color: var(--green-deep); background: var(--green-deep); color: #fff; }
-.choice input[type='checkbox']:checked + span::before { content: '✓ '; white-space: pre; }
-.choice span:hover { border-color: var(--green-deep); }
-.choice input:focus-visible + span { outline: 3px solid rgba(62, 123, 80, 0.35); outline-offset: 2px; }
+.choice span:hover { background: var(--control-hover); }
+/* 선택은 색으로만 표시 (체크박스 묶음도 같은 모양) */
+/* 선택된 칩은 연한 초록 + 초록 글씨 (진한 초록은 저장하기 같은 주요 버튼에만 쓴다) */
+.choice input:checked + span {
+  background: var(--green-soft-strong);
+  color: var(--green-text);
+  font-weight: 600;
+}
+.choice input:checked + span:hover { background: #bfe8c9; }
+.choice input:focus-visible + span { outline: 3px solid rgba(35, 149, 74, 0.35); outline-offset: 2px; }
 
 /* 영양소 숫자 칸 */
 .nutrients {
@@ -451,16 +504,16 @@ button { font: inherit; color: inherit; cursor: pointer; }
   gap: 12px;
   margin: 0;
 }
-.nutrients div { padding: 14px 16px; border-radius: 14px; background: #f6f6f2; }
+.nutrients div { padding: 14px 16px; border-radius: 14px; background: #fff; }
 .nutrients dt { font-size: 14px; color: var(--text-sub); }
-.nutrients dd { margin: 4px 0 0; font-size: 20px; font-weight: 800; }
-.nutrients dd small { margin-left: 2px; font-size: 13px; font-weight: 600; color: var(--text-sub); }
+.nutrients dd { margin: 4px 0 0; font-size: 20px; font-weight: 700; }
+.nutrients dd small { margin-left: 2px; font-size: 13px; font-weight: 300; color: var(--text-sub); }
 
 /* 폼 (앱 화면) */
 .form-row { display: grid; gap: 8px; }
 .form-row + .form-row { margin-top: 20px; }
 .form-grid > .form-row + .form-row { margin-top: 0; }
-.form-label { font-size: 15px; font-weight: 700; color: #3a3d40; }
+.form-label { font-size: 15px; font-weight: 500; color: var(--text-2); }
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -477,15 +530,16 @@ button { font: inherit; color: inherit; cursor: pointer; }
   width: 100%;
   height: 52px;
   padding: 0 16px;
-  border: 1.5px solid var(--line);
+  border: 0;
   border-radius: 12px;
-  background: #fff;
+  background: var(--field-bg);
+  box-shadow: var(--field-shade);
   font: inherit;
   font-size: 16px;
   outline: 0;
-  transition: border-color 0.15s;
+  transition: box-shadow 0.15s;
 }
-.input:focus { border-color: var(--green-deep); }
+.input:focus { box-shadow: var(--field-shade), var(--focus-ring); }
 .field--sm { height: 52px; padding: 0 14px; border-radius: 12px; }
 .field--sm input { font-size: 16px; }
 
@@ -494,20 +548,140 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .chips li {
   padding: 7px 12px;
   border-radius: var(--radius-pill);
-  background: #f3f2ec;
+  background: var(--surface);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 400;
 }
-.chips--green li { background: #e8f4ea; color: var(--green-text); }
+.chips--green li { background: var(--green-soft); color: var(--green-text); }
 
-.section-title { margin: 32px 0 16px; font-size: 22px; font-weight: 800; }
-.back-link { display: inline-block; margin-top: 24px; color: var(--text-sub); font-weight: 600; }
+.section-title { margin: 32px 0 16px; font-size: 22px; font-weight: 700; }
+.back-link { display: inline-block; margin-top: 24px; color: var(--text-sub); font-weight: 400; }
+
+/* ───── YamYam 달력 (js/core/datepicker.js) ───── */
+.datepicker { position: relative; display: inline-block; }
+.datepicker__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 52px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--control);
+  font-size: 17px;
+  font-weight: 500;
+  transition: background 0.15s, box-shadow 0.15s;
+}
+.datepicker__trigger:hover { background: var(--control-hover); }
+.datepicker__trigger:focus-visible,
+.datepicker__trigger[aria-expanded='true'] { box-shadow: var(--focus-ring); outline: 0; }
+.datepicker__trigger svg { width: 20px; height: 20px; color: var(--green-deep); }
+.datepicker__panel {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 10px);
+  left: 0;
+  width: 320px;
+  padding: 18px;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 20px 50px -12px rgba(40, 35, 20, 0.28);
+  animation: datepicker-in 0.18s ease-out;
+}
+@keyframes datepicker-in { from { opacity: 0; transform: translateY(-6px); } }
+.datepicker__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-size: 17px;
+}
+.datepicker__nav {
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--text-2);
+}
+.datepicker__nav:hover:not(:disabled) { background: var(--surface); }
+.datepicker__nav:disabled { opacity: 0.25; cursor: default; }
+.datepicker__week,
+.datepicker__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  text-align: center;
+}
+.datepicker__week { margin-bottom: 4px; font-size: 13px; font-weight: 300; color: var(--text-sub); }
+.datepicker__week span:first-child { color: #d0605a; }
+.datepicker__day {
+  position: relative;
+  aspect-ratio: 1;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--text);
+  transition: background 0.12s;
+}
+.datepicker__day:hover:not(:disabled) { background: var(--surface); }
+.datepicker__day:disabled { color: var(--text-muted); cursor: default; }
+.datepicker__day.is-today { color: var(--green-deep); font-weight: 700; }
+.datepicker__day.has-mark::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 5px;
+  width: 5px;
+  height: 5px;
+  margin-left: -2.5px;
+  border-radius: 50%;
+  background: var(--green);
+}
+.datepicker__day.is-selected { background: var(--green-deep); color: #fff; }
+.datepicker__day.is-selected.has-mark::after { background: #fff; }
+.datepicker__today {
+  width: 100%;
+  height: 40px;
+  margin-top: 10px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  font-weight: 500;
+  color: var(--green-text);
+}
+.datepicker__today:hover { background: var(--green-soft); }
 
 .empty-state {
   padding: 40px 16px;
   text-align: center;
   color: var(--text-sub);
 }
+
+/* ───── 글씨 강약 ─────
+   중요한 것은 굵게: 핵심 숫자(kcal·점수·%) 800 · 제목/주요 버튼/음식 이름 700~600
+   부가 정보는 얇게: 라벨/보조 버튼 500 · 본문 400 · 설명 글/단위/메타 정보 300 */
+.page-sub,
+.macro__range,
+.empty-state,
+.form-optional,
+.choice-group__hint,
+.withdraw__desc,
+.profile__id,
+.day__target,
+.day__nutrients dt,
+.meal-item__meta,
+.rec-item__meta,
+.food-result__meta,
+.selected-food__kcal,
+.score-card__kcal,
+.custom-food__title,
+.food-table td { font-weight: 300; }
+.site-nav__link[aria-current='page'] { font-weight: 600; }
 
 .sr-only {
   position: absolute;

@@ -13,7 +13,6 @@ if (requireLogin()) {
   const todayMeals = getMeals({ date: today() });
   const day = analyzeDay(todayMeals, user);
   fillFields(document, {
-    name: user.name,
     diseaseInfo: formatDiseases(user),
     remainKcal: Math.max(0, round(day.targetKcal - day.total.calorie, 0)),
   });
@@ -25,37 +24,24 @@ if (requireLogin()) {
   render();
 }
 
+// 카드에는 꼭 필요한 것만: 등급, 음식 이름, 열량, 추천 이유 한 줄
 function renderRecommendations(user, mealType) {
-  fillFields(document, { mealType });
   renderList($('#recommend-list'), $('#recommend-item'), recommendMeals(user, mealType), {
-    toFields: ({ analysis }) => ({
-      calorie: analysis.calorie,
-      score: analysis.score,
+    toFields: ({ foods, analysis, highlights }) => ({
       grade: analysis.grade,
-      sodium: analysis.total.sodium,
-      protein: analysis.total.protein,
+      foodNames: foods.map((f) => f.foodName.replace(/_/g, ' ')).join(' · '),
+      calorie: Math.round(analysis.calorie),
+      // '목표 열량의 N%'는 열량 숫자와 겹치므로 빼고 나머지 이유만
+      reason: highlights.filter((text) => !text.startsWith('목표 열량')).slice(0, 2).join(' · '),
     }),
     onRow: (row, item, index) => {
       fillFields(row, { rank: index + 1 });
-      fillChips($('[data-list="foods"]', row), item.foods.map((f) => f.foodName));
-      fillChips($('[data-list="highlights"]', row), item.highlights);
       $('[data-action="record"]', row)?.addEventListener('click', (event) => {
         event.preventDefault();
         recordMeal(mealType, item.foods);
       });
     },
   });
-}
-
-// 글자 목록 → <li> 여러 개
-function fillChips(list, texts) {
-  list?.replaceChildren(
-    ...texts.map((text) => {
-      const li = document.createElement('li');
-      li.textContent = text;
-      return li;
-    }),
-  );
 }
 
 function recordMeal(mealType, foods) {

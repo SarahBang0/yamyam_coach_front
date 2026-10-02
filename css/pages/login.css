@@ -1,6 +1,8 @@
 /* 로그인 (회원가입도 같은 틀을 쓸 수 있게 .auth로 만듦) */
 
 .auth {
+  --control: var(--control-muted);
+  --control-hover: var(--surface-strong);
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
@@ -24,27 +26,30 @@
 /* 메인의 접시를 왼쪽으로 90도 돌린 모습 (포크가 위, 나이프가 아래) */
 .auth__visual .plate { transform: rotate(-90deg); }
 .auth__visual .plate__img { filter: var(--plate-shadow-rotated); }
-.auth__visual .sparks { right: 2%; top: 8%; width: 11%; }
+/* 접시를 돌리면 원의 중심이 살짝 옮겨져서 위치를 따로 맞춤 */
+.auth__visual .sparks { right: 1%; top: 15%; width: 14%; }
 
 /* 오른쪽: 폼 */
 .auth__panel {
-  width: min(500px, 100% - 32px);
+  justify-self: center; /* 오른쪽 칸의 가로 가운데 */
+  width: min(480px, 100% - 64px);
   padding: 40px 0;
 }
 .auth__logo { display: inline-block; font-size: 46px; }
 .auth__title {
-  margin: 14px 0 44px;
+  margin: 26px 0 40px;
   font-size: 54px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: -0.02em;
-  color: #2b2e31;
+  color: var(--text);
 }
 .auth__form {
   display: grid;
+  grid-template-columns: minmax(0, 1fr); /* 안의 칸이 길어도 폼 폭을 넘지 않게 */
   gap: 16px;
   margin-bottom: 36px;
 }
-.auth__form .btn-primary { margin-top: 6px; height: 74px; font-size: 22px; }
+.auth__form .btn-primary { margin-top: 6px; height: 64px; font-size: 20px; }
 .auth__form-error { margin: 0 4px; }
 
 @media (max-width: 860px) {
