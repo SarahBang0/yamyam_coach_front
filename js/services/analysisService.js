@@ -64,7 +64,7 @@ export function analyzeDay(meals, user) {
 //   total: 영양 합계, calorie: 총 열량,
 //   targetKcal: 이 끼니의 목표 열량, kcalRate: 목표 대비 %,
 //   ratio: { carb, protein, fat } 탄단지 열량 비율 %(차트용),
-//   advice: ['조언 문장', …]
+//   advice: ['조언 문장', …]  (**…** 부분은 강조 표시)
 // }
 export function analyzeMeal(meal, user) {
   const total = sumNutrition(meal.foods);
@@ -136,18 +136,19 @@ function addRangeDeduction(list, name, value, min, max, cap) {
   else if (value < min) addDeduction(list, `${name}Low`, Math.min(cap, min - value));
 }
 
+// 조언 문장: **…** 로 감싼 부분은 화면에서 강조(초록 굵은 글씨)한다
 const ADVICE = {
-  calorieHigh: '한 끼 목표보다 열량이 많아요. 밥이나 면의 양을 조금 줄여 보세요.',
-  calorieLow: '한 끼 목표보다 열량이 적어요. 단백질 반찬을 하나 더해 보세요.',
-  carbHigh: '탄수화물 비율이 높아요. 밥 양을 줄이고 채소 반찬을 늘려 보세요.',
-  carbLow: '탄수화물이 부족해요. 잡곡밥이나 고구마를 곁들여 보세요.',
-  proteinHigh: '단백질 비율이 높아요. 채소와 곡류를 함께 드세요.',
-  proteinLow: '단백질이 부족해요. 달걀, 두부, 생선을 곁들여 보세요.',
-  fatHigh: '지방 비율이 높아요. 튀김·볶음 대신 찜이나 구이를 골라 보세요.',
-  fatLow: '지방이 너무 적어요. 견과류나 생선으로 좋은 지방을 보충해 보세요.',
-  sodium: '나트륨이 많아요. 국물과 김치는 절반만 드세요.',
-  sodiumHypertension: '고혈압이 있다면 나트륨을 더 줄여야 해요. 국물과 짠 반찬을 줄여 보세요.',
-  sugar: '당류가 많아요. 달콤한 소스나 음료를 줄여 보세요.',
-  sugarDiabetes: '당뇨가 있다면 당류 관리가 중요해요. 단 음식과 음료를 피해 보세요.',
-  good: '균형 잡힌 식사예요. 지금처럼 유지하세요.',
+  calorieHigh: '한 끼 목표보다 **열량이 많아요**. 밥이나 면의 양을 조금 줄여 보세요.',
+  calorieLow: '한 끼 목표보다 **열량이 적어요**. 단백질 반찬을 하나 더해 보세요.',
+  carbHigh: '**탄수화물 비율이 높아요**. 밥 양을 줄이고 채소 반찬을 늘려 보세요.',
+  carbLow: '**탄수화물이 부족해요**. 잡곡밥이나 고구마를 곁들여 보세요.',
+  proteinHigh: '**단백질 비율이 높아요**. 채소와 곡류를 함께 드세요.',
+  proteinLow: '**단백질이 부족해요**. 달걀, 두부, 생선을 곁들여 보세요.',
+  fatHigh: '**지방 비율이 높아요**. 튀김·볶음 대신 찜이나 구이를 골라 보세요.',
+  fatLow: '**지방이 너무 적어요**. 견과류나 생선으로 좋은 지방을 보충해 보세요.',
+  sodium: '**나트륨이 많아요**. 국물과 김치는 절반만 드세요.',
+  sodiumHypertension: '고혈압이 있다면 **나트륨을 더 줄여야 해요**. 국물과 짠 반찬을 줄여 보세요.',
+  sugar: '**당류가 많아요**. 달콤한 소스나 음료를 줄여 보세요.',
+  sugarDiabetes: '당뇨가 있다면 **당류 관리가 중요해요**. 단 음식과 음료를 피해 보세요.',
+  good: '**균형 잡힌 식사예요**. 지금처럼 유지하세요.',
 };

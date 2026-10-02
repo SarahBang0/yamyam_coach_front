@@ -1,15 +1,5 @@
 /* 회원가입 (login.css의 .auth 틀 위에 덧붙임) */
 
-/* 폼이 길어서 오른쪽만 스크롤되고, 왼쪽 접시는 화면에 고정 */
-.auth--signup { align-items: center; overflow: visible; }
-.auth--signup .auth__visual {
-  align-self: start;
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  min-height: 0;
-  overflow: hidden;
-}
 .auth--signup .auth__panel { padding: 32px 0; }
 .auth--signup .auth__logo { font-size: 38px; }
 .auth--signup .auth__title { margin: 20px 0 28px; font-size: 42px; }

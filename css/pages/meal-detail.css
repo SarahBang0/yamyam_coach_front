@@ -1,5 +1,12 @@
 /* 식단 상세·분석 */
 
+/* 이 화면의 박스는 흰색 + 드롭 섀도 */
+.card {
+  --control: var(--control-muted);
+  background: #fff;
+  box-shadow: var(--card-shadow);
+}
+
 .detail-date { margin: 0 0 6px; }
 .detail-actions { display: flex; gap: 8px; }
 
@@ -24,27 +31,21 @@
 .score-card__kcal { margin: 4px 0 0; color: var(--text-sub); }
 .score-card__kcal b { color: var(--text); }
 
+/* 조언: 박스 없이 회색 글씨, 핵심 부분만 초록 굵게 */
 .advice {
   display: grid;
-  gap: 8px;
-  margin: 20px 0 0;
+  gap: 6px;
+  margin: 22px 0 0;
   padding: 0;
   list-style: none;
 }
 .advice li {
-  position: relative;
-  padding: 14px 16px 14px 44px;
-  border-radius: 14px;
-  background: var(--green-soft);
+  color: var(--text-sub);
+  font-size: 16px;
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.6;
 }
-.advice li::before {
-  content: '💡';
-  position: absolute;
-  left: 16px;
-  top: 13px;
-}
+.advice strong { color: var(--green-text); font-weight: 700; }
 
 .table-wrap { overflow-x: auto; }
 .food-table {
@@ -69,7 +70,11 @@
 /* 단위는 제목 아래 줄에 (제목 길이와 상관없이 오른쪽 끝이 숫자와 맞도록) */
 .food-table thead small { display: block; font-size: 12px; font-weight: 500; color: var(--text-muted); }
 .food-table tbody th { font-weight: 500; }
+/* 합계 줄: 박스 없이 초록 글씨, 위에 구분선만 */
 .food-table tfoot th,
-.food-table tfoot td { border-bottom: 0; font-weight: 700; background: var(--control); }
-.food-table tfoot th { border-radius: 12px 0 0 12px; }
-.food-table tfoot td:last-child { border-radius: 0 12px 12px 0; }
+.food-table tfoot td {
+  border-top: 1.5px solid var(--line);
+  border-bottom: 0;
+  color: var(--green-text);
+  font-weight: 700;
+}

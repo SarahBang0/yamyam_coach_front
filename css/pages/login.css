@@ -1,25 +1,30 @@
 /* 로그인 (회원가입도 같은 틀을 쓸 수 있게 .auth로 만듦) */
 
+/* 폼은 화면 전체의 가로·세로 정중앙, 접시는 화면 왼쪽 끝에 반쯤 걸쳐 고정 */
 .auth {
   --control: var(--control-muted);
   --control-hover: var(--surface-strong);
+  position: relative;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
+  place-items: center;
   min-height: 100vh;
-  overflow: hidden;
 }
 
-/* 왼쪽: 화면 밖으로 살짝 잘린 접시 */
+/* 왼쪽 접시: 화면에 고정 (페이지가 길어 스크롤돼도 제자리), 절반이 화면 밖으로 잘림 */
 .auth__visual {
-  position: relative;
-  height: 100%;
-  min-height: 100vh;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 50vw;
+  pointer-events: none;
 }
 .auth__visual .plate-wrap {
   --plate-size: min(48vw, 92vh);
   position: absolute;
-  left: -4%;
+  /* 접시 사진의 65%가 보이도록 35%만 화면 밖으로. 단, 좁은 화면에서는 폼(가운데 480px)과 24px 이상 떨어지게
+     (main.js의 loginPlateTransform 계산과 같아야 함) */
+  left: min(calc(var(--plate-size) * -0.35), calc(50vw - 264px - var(--plate-size)));
   top: 50%;
   transform: translateY(-50%);
 }
@@ -31,7 +36,8 @@
 
 /* 오른쪽: 폼 */
 .auth__panel {
-  justify-self: center; /* 오른쪽 칸의 가로 가운데 */
+  position: relative; /* 고정된 접시보다 위에 */
+  justify-self: center; /* 화면 가로 가운데 */
   width: min(480px, 100% - 64px);
   padding: 40px 0;
 }

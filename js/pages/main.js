@@ -122,7 +122,8 @@ function animatePlate(home, direction) {
 function loginPlateTransform(wrap) {
   const from = wrap.getBoundingClientRect();
   const size = Math.min(window.innerWidth * 0.48, window.innerHeight * 0.92); // login.css의 --plate-size
-  const left = -(window.innerWidth / 2) * 0.04; // 왼쪽 칸 너비의 -4%
+  // 65%가 보이게 35%만 화면 밖으로, 좁은 화면에서는 폼과 24px 간격 유지 (login.css의 left와 같음)
+  const left = Math.min(-size * 0.35, window.innerWidth / 2 - 264 - size);
   const top = (window.innerHeight - size) / 2; // 세로 가운데
   return `translate(${left - from.left}px, ${top - from.top}px) scale(${size / from.width})`;
 }

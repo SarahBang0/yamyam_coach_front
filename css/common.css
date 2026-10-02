@@ -31,6 +31,8 @@
   --danger-soft-strong: #fbe0de;
 
   --focus-ring: 0 0 0 2px rgba(34, 176, 74, 0.45);
+  /* 흰 박스용 드롭 섀도 (식단 등록·식단 분석 화면) */
+  --card-shadow: 0 10px 30px -14px rgba(40, 60, 45, 0.18), 0 1px 3px rgba(40, 60, 45, 0.05);
   /* 입력칸: 흰 바탕 + 안쪽 그림자 (살짝 파인 느낌) */
   --field-bg: #ffffff;
   --field-shade: inset 0 2px 4px rgba(27, 34, 29, 0.07), inset 0 0 0 1px rgba(27, 34, 29, 0.06);

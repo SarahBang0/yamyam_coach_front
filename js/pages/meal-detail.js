@@ -41,13 +41,7 @@ function renderMeal(meal, user) {
     setBar(el, analysis.ratio[key]);
   });
 
-  $('#advice-list')?.replaceChildren(
-    ...analysis.advice.map((text) => {
-      const li = document.createElement('li');
-      li.textContent = text;
-      return li;
-    }),
-  );
+  $('#advice-list')?.replaceChildren(...analysis.advice.map(adviceItem));
 
   setLink($('#edit-btn'), pageUrl(`meal-form.html?id=${meal.mealId}`));
   $('#delete-btn')?.addEventListener('click', (event) => {
@@ -69,4 +63,20 @@ function toTableRow(food) {
     row[key] = Number(food[key] ?? 0).toLocaleString('ko-KR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
   });
   return row;
+}
+
+// 조언 한 줄 → <li>. '**…**' 부분은 <strong>으로 감싸 강조한다 (글자 노드로 만들어 HTML이 섞이지 않게)
+function adviceItem(text) {
+  const li = document.createElement('li');
+  text.split('**').forEach((part, i) => {
+    if (!part) return;
+    if (i % 2 === 1) {
+      const strong = document.createElement('strong');
+      strong.textContent = part;
+      li.append(strong);
+    } else {
+      li.append(part);
+    }
+  });
+  return li;
 }
