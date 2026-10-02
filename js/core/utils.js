@@ -14,7 +14,7 @@ export function round(n, digits = 1) {
   return Math.round(Number(n) * p) / p;
 }
 
-// URL 쿼리 값 읽기: diet-detail.html?id=3 → getQueryParam('id') === '3'
+// URL 쿼리 값 읽기: meal-detail.html?id=3 → getQueryParam('id') === '3'
 export function getQueryParam(name) {
   return new URLSearchParams(window.location.search).get(name);
 }
