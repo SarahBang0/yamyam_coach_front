@@ -2,6 +2,7 @@
 
 import { STORAGE_KEYS } from './constants.js';
 import { getAll, getItem, setItem, removeItem } from './storage.js';
+import { pageUrl, homeUrl } from './utils.js';
 
 // 로그인: 성공하면 { ok: true, data: 회원(비밀번호 제외) }
 export function login(userId, password) {
@@ -39,20 +40,15 @@ export function isLoggedIn() {
 export function requireLogin() {
   if (isLoggedIn()) return true;
   const redirect = encodeURIComponent(window.location.pathname + window.location.search);
-  window.location.href = `${pagesPath()}login.html?redirect=${redirect}`;
+  window.location.href = pageUrl(`login.html?redirect=${redirect}`);
   return false;
 }
 
 // 로그인·회원가입 화면 맨 위에서 호출: 이미 로그인했으면 메인으로 보낸다
 export function requireGuest() {
   if (!isLoggedIn()) return true;
-  window.location.href = window.location.pathname.includes('/pages/') ? '../index.html' : 'index.html';
+  window.location.href = homeUrl();
   return false;
-}
-
-// index.html(루트)에서는 'pages/', pages 폴더 안에서는 '' 를 붙여야 경로가 맞는다
-function pagesPath() {
-  return window.location.pathname.includes('/pages/') ? '' : 'pages/';
 }
 
 function withoutPassword(user) {

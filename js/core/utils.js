@@ -34,3 +34,18 @@ export function isNumeric(value) {
   if (typeof value === 'string' && value.trim() === '') return false;
   return Number.isFinite(Number(value));
 }
+
+// pages 폴더 안 화면의 주소: index.html(루트)에서는 'pages/'를 붙이고, pages 안에서는 그대로
+// pageUrl('meal-detail.html?id=3')
+export function pageUrl(file) {
+  return isInPagesFolder() ? file : `pages/${file}`;
+}
+
+// 메인(index.html) 주소
+export function homeUrl() {
+  return isInPagesFolder() ? '../index.html' : 'index.html';
+}
+
+function isInPagesFolder() {
+  return window.location.pathname.includes('/pages/');
+}
